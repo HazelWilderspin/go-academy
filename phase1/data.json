@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "user_detail_id": 1000,
+      "username": "ALPHA",
+      "forename": "Alice",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": [
+        {
+          "list_id": 100,
+          "list_name": "Self learning",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": 1,
+              "item_name": "Learn basic GoLang",
+              "item_description": "Follow Go tutorial and take notes",
+              "item_is_checked": true
+            },
+            {
+              "item_id": 2,
+              "item_name": "Create scripts",
+              "item_description": "Plot phase4 data structure and write cycle scripts",
+              "item_is_checked": true
+            },
+            {
+              "item_id": 3,
+              "item_name": "Create mock data",
+              "item_description": "Translate the scripts into a json structure (Hi)",
+              "item_is_checked": true
+            },
+            {
+              "item_id": 4,
+              "item_name": "CMD Golang app",
+              "item_description": "Create a main() that can CRUD the json through the cmd",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
