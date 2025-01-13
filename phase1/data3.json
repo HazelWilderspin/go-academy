@@ -1,0 +1,58 @@
+[
+  {
+    "list_id": "86698051-e35c-46de-a886-f017adb2313d",
+    "list_name": "New list",
+    "list_init_date": "2012-04-23T18:25:43.511Z",
+    "list_is_complete": false,
+    "items": [
+      {
+        "item_id": "f5f078ba-e27e-4843-adc0-e0740f81e77b",
+        "item_name": "New item",
+        "item_description": "New item description",
+        "item_is_checked": false
+      }
+    ]
+  },
+  {
+    "list_id": "587a37ef-dcb5-4a94-a2f4-5e0ae8a68cd8",
+    "list_name": "New list",
+    "list_init_date": "2012-04-23T18:25:43.511Z",
+    "list_is_complete": false,
+    "items": [
+      {
+        "item_id": "6b1ea85d-e40a-4e29-a1ed-7c725431ad65",
+        "item_name": "New item",
+        "item_description": "New item description",
+        "item_is_checked": false
+      }
+    ]
+  },
+  {
+    "list_id": "84634a98-831e-442b-a3c5-09d932b3f923",
+    "list_name": "New list",
+    "list_init_date": "2012-04-23T18:25:43.511Z",
+    "list_is_complete": false,
+    "items": [
+      {
+        "item_id": "c2437924-2d68-447b-85e9-26f1f837ffc1",
+        "item_name": "New item",
+        "item_description": "New item description",
+        "item_is_checked": false
+      }
+    ]
+  },
+  {
+    "list_id": "d1c7d591-8a3c-4f6e-a214-f8825de5d6f9",
+    "list_name": "New list",
+    "list_init_date": "2012-04-23T18:25:43.511Z",
+    "list_is_complete": false,
+    "items": [
+      {
+        "item_id": "50504389-6234-4cca-a774-c199c6885609",
+        "item_name": "New item",
+        "item_description": "New item description",
+        "item_is_checked": false
+      }
+    ]
+  }
+]

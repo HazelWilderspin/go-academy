@@ -4,12 +4,10 @@ import (
 	"testing"
 )
 
-func TestGetUserData(t *testing.T) {
-	response, err := getUserData("ALPHA")
-	if err != nil {
-		t.Error("HAZZARD")
-	} else {
-		println(response)
-	}
+func TestReloadData(t *testing.T) {
+	name, data := reloadData("data4.json", "BRAVO")
+
+	println("Name:", name)
+	println("Data:", data)
 
 }

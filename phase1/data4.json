@@ -1,0 +1,117 @@
+[
+    {
+      "user_detail_id": "5ad98d52-5c4e-412e-a6ad-d33598f22c9e",
+      "username": "ALPHA",
+      "forename": "Alice",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": [
+        {
+          "list_id": "adde3876-594d-4d64-98b0-542b06ed3659",
+          "list_name": "List one",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "21ff4827-0126-4eac-a7b7-a343c1dffa22",
+              "item_name": "Item one",
+              "item_description": "New item description",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user_detail_id": "e696392e-585f-4e85-b8d0-cff4e34f8f36",
+      "username": "BRAVO",
+      "forename": "Bobby",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": [
+        {
+          "list_id": "461800bf-84f3-4c10-bf9a-b4a88af69acb",
+          "list_name": "Learning objectives",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "72cf594f-2cbf-4ed7-bf50-d84039a0ce84",
+              "item_name": "Learn basic GoLang",
+              "item_description": "Watch tutorials, take notes",
+              "item_is_checked": true
+            },
+            {
+              "item_id": "587a37ef-dcb5-4a94-a2f4-5e0ae8a68cd8",
+              "item_name": "Design target MSSSMS data",
+              "item_description": "Write up scripts to build relational db for Todo app",
+              "item_is_checked": true
+            },
+            {
+              "item_id": "6b1ea85d-e40a-4e29-a1ed-7c725431ad65",
+              "item_name": "Mock JSON",
+              "item_description": "Scratch up a model for your mid tier data",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "6b1ea85d-e40a-4e29-a1ed-7c725431ad65",
+              "item_name": "CMD line app",
+              "item_description": "Get you cmd app to perform CRUD commands on a json file",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "461800bf-84f3-4c10-bf9a-b4ad8af69acb",
+          "list_name": "Self care",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "72cf594f-2cbf-4ed7-bf50-d84039a0ce84",
+              "item_name": "Cake",
+              "item_description": "Eat more of that",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "258445cf-e344-4a65-8a20-f5c413ef3204",
+          "list_name": "test",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "a4129a9b-7dda-4c73-bc9e-76b8d1ab9b59",
+              "item_name": "test",
+              "item_description": "test",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user_detail_id": "aed8e9aa-077c-4951-b40e-374ef7d4928d",
+      "username": "CHARLIE",
+      "forename": "Charlie",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": [
+        {
+          "list_id": "e52fffea-8ff9-4e28-9e13-90fe8aabe8aa",
+          "list_name": "New list",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "9c3e1b88-a916-4561-81fc-582c491b965e",
+              "item_name": "New item",
+              "item_description": "New item description",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
