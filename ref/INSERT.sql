@@ -1,0 +1,35 @@
+/****** Microsoft SQL server Management studio 'To do' app data Insert base data script  ******/
+
+USE [tempdb]
+GO
+
+/****** USER1 ******/
+INSERT INTO [dbo].USER_DETAIL(USER_DETAIL_ID,USERNAME,FORENAME,SURNAME,USER_PERMISSIONS,INIT_DATE)
+VALUES(1000,'ALPHA','Alice',null,null,'2020-04-15')
+
+	 /****** USER1 LIST1 ******/
+INSERT INTO [dbo].LIST(USER_DETAIL_ID,LIST_ID,LIST_NAME,LIST_INIT_DATE,LIST_IS_COMPLETE)
+VALUES(1000,100,'This weeks self improvement','2025-01-01 21:22:12', 0)
+
+	 /****** USER1 LIST1 ITEMS ******/
+INSERT INTO [dbo].LIST_ITEM(LIST_ID,ITEM_ID,ITEM_NAME, ITEM_DESC, ITEM_IS_CHECKED)
+VALUES(100,1,'Cut carbs', 'No rice, potatoes or pasta', 0)
+	
+	/****** USER1 LIST2 ******/
+INSERT INTO [dbo].LIST(USER_DETAIL_ID,LIST_ID,LIST_NAME,LIST_INIT_DATE,LIST_IS_COMPLETE)
+VALUES(1000,101,'Self learning','2025-01-01 21:22:12', 0)
+
+	/****** USER1 LIST2 ITEMS ******/
+INSERT INTO [dbo].LIST_ITEM(LIST_ID,ITEM_ID,ITEM_NAME, ITEM_DESC, ITEM_IS_CHECKED)
+VALUES(101,2,'Learn Go Lang', 'Follow Go tutorial can take notes', 0)
+
+INSERT INTO [dbo].LIST_ITEM(LIST_ID,ITEM_ID,ITEM_NAME, ITEM_DESC, ITEM_IS_CHECKED)
+VALUES(101,3,'Learn MSSSMS UI', 'Follow MSSSMS tutorial can take notes', 0)
+
+INSERT INTO [dbo].LIST_ITEM(LIST_ID,ITEM_ID,ITEM_NAME, ITEM_DESC, ITEM_IS_CHECKED)
+VALUES(101,4,'Create MSSSMS DB', 'Use MSSSMS to create a DB to link a Go app to', 0)
+
+INSERT INTO [dbo].LIST_ITEM(LIST_ID,ITEM_ID,ITEM_NAME, ITEM_DESC, ITEM_IS_CHECKED)
+VALUES(101,5,'Create Go app', 'Develop a Go application', 0)
+
+GO

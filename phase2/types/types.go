@@ -1,8 +1,6 @@
 package types
 
-import (
-	"github.com/google/uuid"
-)
+import "github.com/google/uuid"
 
 type Item struct {
 	ItemId        uuid.UUID `json:"item_id"`

@@ -8,7 +8,7 @@
       "lists": [
         {
           "list_id": "adde3876-594d-4d64-98b0-542b06ed3659",
-          "list_name": "List one",
+          "list_name": "Alice's list one",
           "list_init_date": "2012-04-23T18:25:43.511Z",
           "list_is_complete": false,
           "items": [
@@ -16,6 +16,20 @@
               "item_id": "21ff4827-0126-4eac-a7b7-a343c1dffa22",
               "item_name": "Item one",
               "item_description": "New item description",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "17f0603d-a086-41f3-b42c-d4021f900431",
+          "list_name": "Alices's list two",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "4bd26263-efbb-49d6-92f7-48fc0de092fe",
+              "item_name": "Check doors",
+              "item_description": "Sneek out for a smoke",
               "item_is_checked": false
             }
           ]
@@ -52,12 +66,6 @@
               "item_name": "Mock JSON",
               "item_description": "Scratch up a model for your mid tier data",
               "item_is_checked": false
-            },
-            {
-              "item_id": "6b1ea85d-e40a-4e29-a1ed-7c725431ad65",
-              "item_name": "CMD line app",
-              "item_description": "Get you cmd app to perform CRUD commands on a json file",
-              "item_is_checked": false
             }
           ]
         },
@@ -66,28 +74,7 @@
           "list_name": "Self care",
           "list_init_date": "2012-04-23T18:25:43.511Z",
           "list_is_complete": false,
-          "items": [
-            {
-              "item_id": "72cf594f-2cbf-4ed7-bf50-d84039a0ce84",
-              "item_name": "Cake",
-              "item_description": "Eat more of that",
-              "item_is_checked": false
-            }
-          ]
-        },
-        {
-          "list_id": "258445cf-e344-4a65-8a20-f5c413ef3204",
-          "list_name": "test",
-          "list_init_date": "2025-04-23T18:25:43.511Z",
-          "list_is_complete": false,
-          "items": [
-            {
-              "item_id": "a4129a9b-7dda-4c73-bc9e-76b8d1ab9b59",
-              "item_name": "test",
-              "item_description": "test",
-              "item_is_checked": false
-            }
-          ]
+          "items": []
         }
       ]
     },
@@ -108,6 +95,34 @@
               "item_id": "9c3e1b88-a916-4561-81fc-582c491b965e",
               "item_name": "New item",
               "item_description": "New item description",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "618c0cc1-ceda-4aaa-85ad-7c7780441e92",
+          "list_name": "test",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "c04276d9-f7c3-4463-843a-fd68b88113a6",
+              "item_name": "test",
+              "item_description": "test",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "763d50a4-e21f-437d-87e5-dbd89aeab2a1",
+          "list_name": "test",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "116c79a0-5a59-424e-a78d-ea20b53b10d7",
+              "item_name": "test",
+              "item_description": "test",
               "item_is_checked": false
             }
           ]
