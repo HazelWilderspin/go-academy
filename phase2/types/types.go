@@ -25,3 +25,58 @@ type User struct {
 	InitDate        string    `json:"init_date"`
 	Lists           []List    `json:"lists"`
 }
+
+type GetUserRequestBody struct {
+	UserId uuid.UUID `json:"user_detail_id"`
+}
+
+type GetListRequestBody struct {
+	UserId uuid.UUID `json:"user_detail_id"`
+	ListId uuid.UUID `json:"list_id"`
+}
+
+type PostListRequestBody struct {
+	UserId  uuid.UUID `json:"user_detail_id"`
+	NewList List      `json:"list"`
+}
+
+type PutListNameRequestBody struct {
+	UserId      uuid.UUID `json:"user_detail_id"`
+	ListId      uuid.UUID `json:"list_id"`
+	NewListName string    `json:"new_list_name"`
+}
+
+type PutListCompletionRequestBody struct {
+	UserId         uuid.UUID `json:"user_detail_id"`
+	ListId         uuid.UUID `json:"list_id"`
+	ListIsComplete bool      `json:"list_is_complete"`
+}
+
+type DeleteListRequestBody struct {
+	UserId uuid.UUID `json:"user_detail_id"`
+	ListId uuid.UUID `json:"list_id"`
+}
+
+type GetItemRequestBody struct {
+	UserId uuid.UUID `json:"user_detail_id"`
+	ListId uuid.UUID `json:"list_id"`
+	ItemId uuid.UUID `json:"item_id"`
+}
+
+type PostItemRequestBody struct {
+	UserId  uuid.UUID `json:"user_detail_id"`
+	ListId  uuid.UUID `json:"list_id"`
+	NewItem Item      `json:"item"`
+}
+
+type PutItemRequestBody struct {
+	UserId uuid.UUID `json:"user_detail_id"`
+	ListId uuid.UUID `json:"list_id"`
+	Item   Item      `json:"item"`
+}
+
+type DeleteItemRequestBody struct {
+	UserId uuid.UUID `json:"user_detail_id"`
+	ListId uuid.UUID `json:"list_id"`
+	ItemId uuid.UUID `json:"item_id"`
+}
