@@ -1,11 +1,11 @@
 [
     {
-      "user_detail_id": "aed8e9aa-077c-4951-b40e-374ef7d4928d",
-      "username": "CHARLIE",
-      "forename": "Charlie",
-      "user_permissions": "CREATE_READ_UPDATE_DELETE",
-      "init_date": "2012-04-23T18:25:43.511Z",
-      "lists": []
+      "user_detail_id": "00000000-0000-0000-0000-000000000000",
+      "username": "",
+      "forename": "",
+      "user_permissions": "",
+      "init_date": "",
+      "lists": null
     },
     {
       "user_detail_id": "5ad98d52-5c4e-412e-a6ad-d33598f22c9e",

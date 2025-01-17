@@ -32,5 +32,5 @@ type User struct {
 
 type Store struct {
 	Data []User
-	Lock sync.Mutex
+	Lock sync.RWMutex
 }

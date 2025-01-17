@@ -29,7 +29,7 @@ func loadMockData() error {
 	for scanner.Scan() {
 		marshalledData = append(marshalledData, scanner.Bytes()...)
 	}
-	if err != nil {
+	if scanner.Err() != nil {
 		return scanner.Err()
 	}
 	err = json.Unmarshal(marshalledData, &STORE.Data)
@@ -40,6 +40,11 @@ func loadMockData() error {
 }
 
 func ReadUser(userId uuid.UUID) (User, error) {
+
+	readUserLock := STORE.Lock.RLocker()
+	readUserLock.Lock()
+	defer readUserLock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
@@ -47,27 +52,26 @@ func ReadUser(userId uuid.UUID) (User, error) {
 		}
 	}
 
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
-
 	for _, user := range STORE.Data {
 		if user.UserDetailId == userId {
 			return user, nil
 		}
 	}
+
 	return User{}, errors.New("user not found")
 }
 
 func CreateList(userId uuid.UUID, newList List) error {
+
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -76,19 +80,22 @@ func CreateList(userId uuid.UUID, newList List) error {
 			return err
 		}
 	}
+
 	return errors.New("unable to create list")
 }
 
 func ReadList(userId uuid.UUID, listId uuid.UUID) (List, error) {
+
+	readListLock := STORE.Lock.RLocker()
+	readListLock.Lock()
+	defer readListLock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return List{}, err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for _, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -99,19 +106,21 @@ func ReadList(userId uuid.UUID, listId uuid.UUID) (List, error) {
 			}
 		}
 	}
+
 	return List{}, errors.New("list not found")
 }
 
 func UpdateListName(userId uuid.UUID, listId uuid.UUID, newName string) error {
+
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key1, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -124,19 +133,21 @@ func UpdateListName(userId uuid.UUID, listId uuid.UUID, newName string) error {
 			}
 		}
 	}
+
 	return errors.New("update list name unsuccessful")
 }
 
 func UpdateListToggleCompletion(userId uuid.UUID, listId uuid.UUID, completion bool) error {
+
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key1, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -153,19 +164,21 @@ func UpdateListToggleCompletion(userId uuid.UUID, listId uuid.UUID, completion b
 			}
 		}
 	}
+
 	return errors.New("update list completion unsuccessful")
 }
 
 func DeleteList(userId uuid.UUID, listId uuid.UUID) error {
+
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key1, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -184,19 +197,21 @@ func DeleteList(userId uuid.UUID, listId uuid.UUID) error {
 			}
 		}
 	}
+
 	return errors.New("list not found")
 }
 
 func CreateItem(userId uuid.UUID, listId uuid.UUID, newItem Item) error {
+
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key1, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -209,19 +224,22 @@ func CreateItem(userId uuid.UUID, listId uuid.UUID, newItem Item) error {
 			}
 		}
 	}
+
 	return errors.New("unable to create item")
 }
 
 func ReadItem(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID) (Item, error) {
+
+	readItemLock := STORE.Lock.RLocker()
+	readItemLock.Lock()
+	defer readItemLock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return Item{}, err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for _, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -236,19 +254,20 @@ func ReadItem(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID) (Item, error
 			}
 		}
 	}
+
 	return Item{}, errors.New("item not found")
 }
 
 func UpdateItem(userId uuid.UUID, listId uuid.UUID, revisedItem Item) (Item, error) {
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return Item{}, err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key1, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -259,7 +278,6 @@ func UpdateItem(userId uuid.UUID, listId uuid.UUID, revisedItem Item) (Item, err
 							STORE.Data[key1].Lists[key2].Items[key3].ItemName = revisedItem.ItemName
 							STORE.Data[key1].Lists[key2].Items[key3].ItemDesc = revisedItem.ItemDesc
 							STORE.Data[key1].Lists[key2].Items[key3].ItemIsChecked = revisedItem.ItemIsChecked
-
 							err := saveFile()
 							return STORE.Data[key1].Lists[key2].Items[key3], err
 						}
@@ -268,19 +286,21 @@ func UpdateItem(userId uuid.UUID, listId uuid.UUID, revisedItem Item) (Item, err
 			}
 		}
 	}
+
 	return Item{}, errors.New("item not found")
 }
 
 func DeleteItem(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID) error {
+
+	STORE.Lock.Lock()
+	defer STORE.Lock.Unlock()
+
 	if len(STORE.Data) == 0 {
 		err := loadMockData()
 		if err != nil {
 			return err
 		}
 	}
-
-	STORE.Lock.Lock()
-	defer STORE.Lock.Unlock()
 
 	for key1, user := range STORE.Data {
 		if user.UserDetailId == userId {
@@ -290,12 +310,10 @@ func DeleteItem(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID) error {
 						if item.ItemId == itemId {
 							if key3 >= len(list.Items) {
 								STORE.Data[key1].Lists[key2].Items = STORE.Data[key1].Lists[key2].Items[:key3]
-								STORE.Lock.Unlock()
 								err := saveFile()
 								return err
 							} else {
 								STORE.Data[key1].Lists[key2].Items = append(STORE.Data[key1].Lists[key2].Items[:key3], STORE.Data[key1].Lists[key2].Items[key3+1:]...)
-								STORE.Lock.Unlock()
 								err := saveFile()
 								return err
 							}
@@ -305,17 +323,21 @@ func DeleteItem(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID) error {
 			}
 		}
 	}
+
 	return errors.New("item not found")
 }
 
 func saveFile() error {
+
 	byteArr, err := json.MarshalIndent(STORE.Data, "  ", "  ")
 	if err != nil {
 		return err
 	}
+
 	err = os.WriteFile(FILE_PATH, byteArr, 0644)
 	if err != nil {
 		return err
 	}
+
 	return err
 }

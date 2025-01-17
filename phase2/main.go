@@ -28,17 +28,6 @@ func main() {
 	slogHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{AddSource: true}).WithAttrs(defaultAttrs)
 	slog.SetDefault(slog.New(&h.ContextHandler{Handler: slogHandler}))
 
-	//----
-
-	// mutex lock pattern
-	// each handler is a go routing that talks directly to the crud and synchronously updates data
-
-	// the actor pattern
-	// one go routine responsible for interacting with the data
-	// use some kind of message system between the handler and the crud logic
-	// the handlers post to a channel and the crud logic reads from it
-	// the message contains what they want to do and any data to be changed
-
 	mux := http.NewServeMux()
 
 	mux.Handle("/GetUser", TraceMiddleware(http.HandlerFunc(h.GetUser)))

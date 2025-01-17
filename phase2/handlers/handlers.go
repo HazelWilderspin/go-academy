@@ -23,36 +23,17 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- GET USER START")
 	defer fmt.Println("--- GET USER END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
-		cancel()
+		cancelCtx()
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
-
-	// --------------------------------------------------------------------------------------------
-	msgChannel := make(chan string, 2)
-	msgChannel <- "mmmmmm"
-
-	msg1, ok := <-msgChannel
-	fmt.Printf("-1- Reading channel message: %s\nChannel read successful: %t\n", msg1, ok)
-
-	msgChannel <- "mmmmmm 2"
-
-	close(msgChannel)
-
-	select {
-	case msg2, ok := <-msgChannel:
-		fmt.Printf("-2- Reading channel message: %s\nChannel read successful: %t\n", msg2, ok)
-	default:
-		fmt.Println("No messages left on the channel")
-	}
-	// --------------------------------------------------------------------------------------------
 
 	var unmarshaledBody GetUserRequestBody
 
@@ -87,12 +68,12 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- GET LIST START")
 	defer fmt.Println("--- GET LIST END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -124,7 +105,6 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledList)
 }
@@ -133,12 +113,12 @@ func PostList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- POST LIST START")
 	defer fmt.Println("--- POST LIST END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -165,7 +145,6 @@ func PostList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
@@ -174,12 +153,12 @@ func PutListName(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- PUT LIST NAME START")
 	defer fmt.Println("--- PUT LIST NAME END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -206,7 +185,6 @@ func PutListName(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
@@ -215,12 +193,12 @@ func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- TOGGLE LIST COMPLETE START")
 	defer fmt.Println("--- TOGGLE LIST COMPLETE END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -246,7 +224,6 @@ func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
@@ -255,12 +232,12 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- DELETE LIST START")
 	defer fmt.Println("--- DELETE LIST END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -287,7 +264,6 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
@@ -296,12 +272,12 @@ func GetItem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- GET ITEM START")
 	defer fmt.Println("--- GET ITEM END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -333,22 +309,20 @@ func GetItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledItem)
-
 }
 
 func PostItem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- POST ITEM START")
 	defer fmt.Println("--- POST ITEM END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -375,7 +349,6 @@ func PostItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
@@ -384,12 +357,12 @@ func PutItem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- PUT ITEM START")
 	defer fmt.Println("--- PUT ITEM END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -421,7 +394,6 @@ func PutItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledItem)
 }
@@ -430,12 +402,12 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("--- DELETE ITEM START")
 	defer fmt.Println("--- DELETE ITEM END")
 
-	ctx, cancel := context.WithCancel(r.Context())
+	ctx, cancelCtx := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancelCtx()
 		if err != nil {
-			cancel()
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -462,7 +434,6 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("--------- SUCCESS")
-	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }

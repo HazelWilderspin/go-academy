@@ -1,17 +1,52 @@
 package crud
 
 import (
+	"fmt"
+	"reflect"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/google/uuid"
 )
 
 var userId = uuid.Must(uuid.Parse("5ad98d52-5c4e-412e-a6ad-d33598f22c9e"))
+var listId = uuid.Must(uuid.Parse("17f0603d-a086-41f3-b42c-d4021f900431"))
+var itemId = uuid.Must(uuid.Parse("4bd26263-efbb-49d6-92f7-48fc0de092fe"))
 
-// var listId = uuid.Must(uuid.Parse("adde3876-594d-4d64-98b0-542b06ed3659"))
-// var itemId = uuid.Must(uuid.Parse("21ff4827-0126-4eac-a7b7-a343c1dffa22"))
+func makeItem() Item {
+	newItem := Item{
+		ItemId:        uuid.New(),
+		ItemName:      "ITEM ONE",
+		ItemDesc:      "Description",
+		ItemIsChecked: false}
+	return newItem
+}
+
+func makeList() List {
+	var items []Item
+	newItem := makeItem()
+	items = append(items, newItem)
+
+	newList := List{ListId: uuid.New(),
+		ListName:   "UNIT TEST CREATE LIST",
+		InitDate:   "2012-04-23T18:25:43.511Z",
+		IsComplete: false,
+		Items:      items}
+
+	return newList
+}
+
+func trace(name string) func() {
+	fmt.Printf("%s --------- entered", name)
+	return func() {
+		fmt.Printf("%s --------- returned", name)
+	}
+}
 
 func TestReadUser(t *testing.T) {
+	defer trace("TestReadUser")()
+	t.Parallel()
+
 	FILE_PATH = "mockData.json"
 	expectedForename := "Alice"
 
@@ -27,6 +62,9 @@ func TestReadUser(t *testing.T) {
 }
 
 func TestCreateList(t *testing.T) {
+	defer trace("TestCreateList")()
+	t.Parallel()
+
 	newList := makeList()
 
 	err := CreateList(userId, newList)
@@ -41,6 +79,9 @@ func TestCreateList(t *testing.T) {
 }
 
 func TestReadList(t *testing.T) {
+	defer trace("TestReadList")()
+	t.Parallel()
+
 	newList := makeList()
 
 	err := CreateList(userId, newList)
@@ -64,6 +105,9 @@ func TestReadList(t *testing.T) {
 }
 
 func TestUpdateListName(t *testing.T) {
+	defer trace("TestUpdateListName")()
+	t.Parallel()
+
 	newList := makeList()
 
 	err := CreateList(userId, newList)
@@ -92,6 +136,9 @@ func TestUpdateListName(t *testing.T) {
 }
 
 func TestUpdateListToggleCompletion(t *testing.T) {
+	defer trace("TestUpdateListToggleCompletion")()
+	t.Parallel()
+
 	newList := makeList()
 
 	err := CreateList(userId, newList)
@@ -120,6 +167,9 @@ func TestUpdateListToggleCompletion(t *testing.T) {
 }
 
 func TestDeleteList(t *testing.T) {
+	defer trace("TestDeleteList")()
+	t.Parallel()
+
 	newList := makeList()
 
 	err := CreateList(userId, newList)
@@ -146,25 +196,183 @@ func TestDeleteList(t *testing.T) {
 	}
 }
 
-func makeItem() Item {
-	newItem := Item{
-		ItemId:        uuid.New(),
-		ItemName:      "ITEM ONE",
-		ItemDesc:      "Description",
-		ItemIsChecked: false}
-	return newItem
+func TestCreateItem(t *testing.T) {
+	defer trace("TestCreateItem")()
+	t.Parallel()
+
+	FILE_PATH = "mockData.json"
+
+	newItem := makeItem()
+
+	type args struct {
+		userId  uuid.UUID
+		listId  uuid.UUID
+		newItem Item
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "Create a new item on an existing list",
+			args:    args{userId, listId, newItem},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := CreateItem(tt.args.userId, tt.args.listId, tt.args.newItem); (err != nil) != tt.wantErr {
+				t.Errorf("CreateItem() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+		})
+
+	}
+	if err := DeleteItem(userId, listId, newItem.ItemId); err != nil {
+		t.Errorf("DeleteItem() error = %v", err)
+	}
 }
 
-func makeList() List {
-	var items []Item
-	newItem := makeItem()
-	items = append(items, newItem)
+func TestReadItem(t *testing.T) {
+	defer trace("TestReadItem")()
+	t.Parallel()
 
-	newList := List{ListId: uuid.New(),
-		ListName:   "UNIT TEST CREATE LIST",
-		InitDate:   "2012-04-23T18:25:43.511Z",
-		IsComplete: false,
-		Items:      items}
+	FILE_PATH = "mockData.json"
 
-	return newList
+	type args struct {
+		userId uuid.UUID
+		listId uuid.UUID
+		itemId uuid.UUID
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    Item
+		wantErr bool
+	}{
+		{
+			name:    "Read an existing item on an existing list",
+			args:    args{userId, listId, itemId},
+			want:    Item{itemId, "Check doors", "Sneak out for a smoke", false},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ReadItem(tt.args.userId, tt.args.listId, tt.args.itemId)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ReadItem() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ReadItem() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUpdateItem(t *testing.T) {
+	defer trace("TestUpdateItem")()
+	t.Parallel()
+
+	FILE_PATH = "mockData.json"
+
+	item := makeItem()
+	CreateItem(userId, listId, item)
+	item.ItemName = "Revised items name"
+	item.ItemDesc = "New description"
+	item.ItemIsChecked = true
+
+	type args struct {
+		userId      uuid.UUID
+		listId      uuid.UUID
+		revisedItem Item
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    Item
+		wantErr bool
+	}{
+		{
+			name:    "Update the values on a new item on an existing list",
+			args:    args{userId, listId, item},
+			want:    Item{item.ItemId, "Revised items name", "New description", true},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			oldItem, err := ReadItem(tt.args.userId, tt.args.listId, item.ItemId)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ReadItem() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			got, err := UpdateItem(tt.args.userId, tt.args.listId, tt.args.revisedItem)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("UpdateItem() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Updated item DeepEqual = %v, want %v", got, tt.want)
+				return
+			}
+			if !reflect.DeepEqual(oldItem.ItemId, tt.want.ItemId) {
+				t.Errorf("Old item ID DeepEqual = %v, want %v", oldItem.ItemId, tt.want.ItemId)
+				return
+			}
+			if !cmp.Equal(got, tt.want) {
+				t.Errorf("Updated item cmp.Equal = %v, want %v", got, tt.want)
+				return
+			}
+			if !cmp.Equal(oldItem.ItemId, tt.want.ItemId) {
+				t.Errorf("Old item ID cmp.Equal = %v, want %v", oldItem.ItemId, tt.want.ItemId)
+				return
+			}
+		})
+	}
+	if err := DeleteItem(userId, listId, item.ItemId); err != nil {
+		t.Errorf("DeleteItem() error = %v", err)
+		return
+	}
+}
+
+func TestDeleteItem(t *testing.T) {
+	defer trace("TestDeleteItem")()
+	t.Parallel()
+
+	FILE_PATH = "mockData.json"
+
+	item := makeItem()
+	CreateItem(userId, listId, item)
+
+	type args struct {
+		userId uuid.UUID
+		listId uuid.UUID
+		itemId uuid.UUID
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "Delete a new item on an existing list",
+			args:    args{userId, listId, item.ItemId},
+			wantErr: false,
+		},
+		{
+			name:    "Try to delete an item that isn't there",
+			args:    args{userId, listId, uuid.Must(uuid.Parse("1ba98ad9-c77f-4f9c-94c3-a2b7e30334ae"))},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := DeleteItem(tt.args.userId, tt.args.listId, tt.args.itemId); (err != nil) != tt.wantErr {
+				t.Errorf("DeleteItem() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
 }
