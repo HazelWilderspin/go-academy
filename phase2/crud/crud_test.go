@@ -1,15 +1,15 @@
 package crud
 
 import (
-	"phase2/types"
 	"testing"
 
 	"github.com/google/uuid"
 )
 
 var userId = uuid.Must(uuid.Parse("5ad98d52-5c4e-412e-a6ad-d33598f22c9e"))
-var listId = uuid.Must(uuid.Parse("adde3876-594d-4d64-98b0-542b06ed3659"))
-var itemId = uuid.Must(uuid.Parse("21ff4827-0126-4eac-a7b7-a343c1dffa22"))
+
+// var listId = uuid.Must(uuid.Parse("adde3876-594d-4d64-98b0-542b06ed3659"))
+// var itemId = uuid.Must(uuid.Parse("21ff4827-0126-4eac-a7b7-a343c1dffa22"))
 
 func TestReadUser(t *testing.T) {
 	FILE_PATH = "mockData.json"
@@ -146,8 +146,8 @@ func TestDeleteList(t *testing.T) {
 	}
 }
 
-func makeItem() types.Item {
-	newItem := types.Item{
+func makeItem() Item {
+	newItem := Item{
 		ItemId:        uuid.New(),
 		ItemName:      "ITEM ONE",
 		ItemDesc:      "Description",
@@ -155,12 +155,12 @@ func makeItem() types.Item {
 	return newItem
 }
 
-func makeList() types.List {
-	var items []types.Item
+func makeList() List {
+	var items []Item
 	newItem := makeItem()
 	items = append(items, newItem)
 
-	newList := types.List{ListId: uuid.New(),
+	newList := List{ListId: uuid.New(),
 		ListName:   "UNIT TEST CREATE LIST",
 		InitDate:   "2012-04-23T18:25:43.511Z",
 		IsComplete: false,

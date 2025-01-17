@@ -6,33 +6,51 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"time"
 
 	h "phase2/handlers"
 
 	"github.com/google/uuid"
 )
 
-type ContextHandler struct {
-	slog.Handler
-}
+const (
+	traceIdKey h.CtxKey = "trace_id"
+)
 
 func main() {
-	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{AddSource: true})))
 	fmt.Printf("-------------------- Go Http server starting --------------------\n")
+
+	defaultAttrs := []slog.Attr{
+		slog.String("service", "todoService"),
+		slog.String("node", "auth-node-1"),
+		slog.String("environment", "develop"),
+	}
+
+	slogHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{AddSource: true}).WithAttrs(defaultAttrs)
+	slog.SetDefault(slog.New(&h.ContextHandler{Handler: slogHandler}))
+
+	//----
+
+	// mutex lock pattern
+	// each handler is a go routing that talks directly to the crud and synchronously updates data
+
+	// the actor pattern
+	// one go routine responsible for interacting with the data
+	// use some kind of message system between the handler and the crud logic
+	// the handlers post to a channel and the crud logic reads from it
+	// the message contains what they want to do and any data to be changed
 
 	mux := http.NewServeMux()
 
-	mux.Handle("/GetUser", middleware(http.HandlerFunc(h.GetUser)))
-	mux.Handle("/GetList", middleware(http.HandlerFunc(h.GetList)))
-	mux.Handle("/PostList", middleware(http.HandlerFunc(h.PostList)))
-	mux.Handle("/PutListName", middleware(http.HandlerFunc(h.PutListName)))
-	mux.Handle("/PutListToggleCompletion", middleware(http.HandlerFunc(h.PutListToggleCompletion)))
-	mux.Handle("/DeleteList", middleware(http.HandlerFunc(h.DeleteList)))
-	mux.Handle("/GetItem", middleware(http.HandlerFunc(h.GetItem)))
-	mux.Handle("/PostItem", middleware(http.HandlerFunc(h.PostItem)))
-	mux.Handle("/PutItem", middleware(http.HandlerFunc(h.PutItem)))
-	mux.Handle("/DeleteItem", middleware(http.HandlerFunc(h.DeleteItem)))
+	mux.Handle("/GetUser", TraceMiddleware(http.HandlerFunc(h.GetUser)))
+	mux.Handle("/GetList", TraceMiddleware(http.HandlerFunc(h.GetList)))
+	mux.Handle("/PostList", TraceMiddleware(http.HandlerFunc(h.PostList)))
+	mux.Handle("/PutListName", TraceMiddleware(http.HandlerFunc(h.PutListName)))
+	mux.Handle("/PutListToggleCompletion", TraceMiddleware(http.HandlerFunc(h.PutListToggleCompletion)))
+	mux.Handle("/DeleteList", TraceMiddleware(http.HandlerFunc(h.DeleteList)))
+	mux.Handle("/GetItem", TraceMiddleware(http.HandlerFunc(h.GetItem)))
+	mux.Handle("/PostItem", TraceMiddleware(http.HandlerFunc(h.PostItem)))
+	mux.Handle("/PutItem", TraceMiddleware(http.HandlerFunc(h.PutItem)))
+	mux.Handle("/DeleteItem", TraceMiddleware(http.HandlerFunc(h.DeleteItem)))
 
 	srv := &http.Server{Addr: "0.0.0.0:8080", Handler: mux}
 
@@ -42,26 +60,11 @@ func main() {
 	}
 }
 
-func middleware(nextHandler http.Handler) http.Handler {
-
-	midHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var pcs [1]uintptr
-
-		record := slog.NewRecord(time.Now(), slog.Level.Level(1), "test", pcs[0])
-		//	gen a trace id to use in ctx?
-
-		newTraceId := uuid.New()
-
-		ctx, cancel := context.WithCancel(r.Context())
-		ctx = context.WithValue(ctx, "trace_id", newTraceId)
-
-		if traceID, ok := ctx.Value(newTraceId).(string); ok {
-			record.Add("trace_id", slog.StringValue(traceID))
-		}
-
-		// id := mux.Vars(newTraceId)["trace_id"]
-		nextHandler.ServeHTTP(w, r)
-	})
-
-	return midHandler
+func TraceMiddleware(nextHandler http.Handler) http.Handler {
+	return http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			newTraceId := uuid.New()
+			ctx := context.WithValue(r.Context(), traceIdKey, newTraceId)
+			nextHandler.ServeHTTP(w, r.WithContext(ctx))
+		})
 }

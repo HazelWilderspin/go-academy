@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,35 +9,54 @@ import (
 	"net/http"
 
 	c "phase2/crud"
-	t "phase2/types"
 )
 
-var USERNAME string
+const (
+	traceIdKey CtxKey = "trace_id"
+)
 
-func GetUser(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### GET USER START #####")
-	defer fmt.Println("##### GET USER END #####")
+// create a channel to receive a notification on
+// use signal.notify to bind an os interrupt to that channel
+// listen for interrupt then call context.done
 
-	// ctx, cancel := context.WithCancel(req.Context())
-	// ctx = context.WithValue(ctx, traceCtxKey, "123")
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- GET USER START")
+	defer fmt.Println("--- GET USER END")
 
-	fmt.Println("traceCtxKey", traceCtxKey)
-	fmt.Println("record", record)
-	fmt.Println("ctx Value traceCtxKey", ctx.Value(traceCtxKey))
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
+		cancel()
 		if err != nil {
-			cancel()
-			slog.Error(err.Error())
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.GetUserRequestBody
+	// --------------------------------------------------------------------------------------------
+	msgChannel := make(chan string, 2)
+	msgChannel <- "mmmmmm"
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	msg1, ok := <-msgChannel
+	fmt.Printf("-1- Reading channel message: %s\nChannel read successful: %t\n", msg1, ok)
+
+	msgChannel <- "mmmmmm 2"
+
+	close(msgChannel)
+
+	select {
+	case msg2, ok := <-msgChannel:
+		fmt.Printf("-2- Reading channel message: %s\nChannel read successful: %t\n", msg2, ok)
+	default:
+		fmt.Println("No messages left on the channel")
+	}
+	// --------------------------------------------------------------------------------------------
+
+	var unmarshaledBody GetUserRequestBody
+
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -58,27 +78,30 @@ func GetUser(w http.ResponseWriter, req *http.Request) {
 		err = fmt.Errorf("failed to marshal json: %v", err)
 	}
 
-	cancel()
+	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshaledUser)
 }
 
-func GetList(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### GET LIST START #####")
-	defer fmt.Println("##### GET LIST END #####")
+func GetList(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- GET LIST START")
+	defer fmt.Println("--- GET LIST END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.GetListRequestBody
+	var unmarshaledBody GetListRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -99,26 +122,32 @@ func GetList(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		err = fmt.Errorf("failed to marshal json: %v", err)
 	}
+
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledList)
 }
 
-func PostList(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### POST LIST START #####")
-	defer fmt.Println("##### POST LIST END #####")
+func PostList(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- POST LIST START")
+	defer fmt.Println("--- POST LIST END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.PostListRequestBody
+	var unmarshaledBody PostListRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -134,26 +163,32 @@ func PostList(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
+
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
 
-func PutListName(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### PUT LIST NAME START #####")
-	defer fmt.Println("##### PUT LIST NAME END #####")
+func PutListName(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- PUT LIST NAME START")
+	defer fmt.Println("--- PUT LIST NAME END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.PutListNameRequestBody
+	var unmarshaledBody PutListNameRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -169,26 +204,32 @@ func PutListName(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
+
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
 
-func PutListToggleCompletion(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### TOGGLE LIST COMPLETE START #####")
-	defer fmt.Println("##### TOGGLE LIST COMPLETE END #####")
+func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- TOGGLE LIST COMPLETE START")
+	defer fmt.Println("--- TOGGLE LIST COMPLETE END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.PutListCompletionRequestBody
+	var unmarshaledBody PutListCompletionRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -203,26 +244,32 @@ func PutListToggleCompletion(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
+
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
 
-func DeleteList(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### DELETE LIST START #####")
-	defer fmt.Println("##### DELETE LIST END #####")
+func DeleteList(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- DELETE LIST START")
+	defer fmt.Println("--- DELETE LIST END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.DeleteListRequestBody
+	var unmarshaledBody DeleteListRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -238,26 +285,32 @@ func DeleteList(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
+
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
 
-func GetItem(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### GET ITEM START #####")
-	defer fmt.Println("##### GET ITEM END #####")
+func GetItem(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- GET ITEM START")
+	defer fmt.Println("--- GET ITEM END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.GetItemRequestBody
+	var unmarshaledBody GetItemRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -278,27 +331,33 @@ func GetItem(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		err = fmt.Errorf("failed to marshal json: %v", err)
 	}
+
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledItem)
 
 }
 
-func PostItem(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### POST ITEM START #####")
-	defer fmt.Println("##### POST ITEM END #####")
+func PostItem(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- POST ITEM START")
+	defer fmt.Println("--- POST ITEM END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.PostItemRequestBody
+	var unmarshaledBody PostItemRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -315,26 +374,31 @@ func PostItem(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
 
-func PutItem(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### PUT ITEM START #####")
-	defer fmt.Println("##### PUT ITEM END #####")
+func PutItem(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- PUT ITEM START")
+	defer fmt.Println("--- PUT ITEM END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.PutItemRequestBody
+	var unmarshaledBody PutItemRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -356,26 +420,31 @@ func PutItem(w http.ResponseWriter, req *http.Request) {
 		err = fmt.Errorf("failed to marshal json: %v", err)
 	}
 
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledItem)
 }
 
-func DeleteItem(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("##### DELETE ITEM START #####")
-	defer fmt.Println("##### DELETE ITEM END #####")
+func DeleteItem(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--- DELETE ITEM START")
+	defer fmt.Println("--- DELETE ITEM END")
+
+	ctx, cancel := context.WithCancel(r.Context())
 
 	var err error
 	defer func() {
 		if err != nil {
-			slog.Error(err.Error())
+			cancel()
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	var unmarshaledBody t.DeleteItemRequestBody
+	var unmarshaledBody DeleteItemRequestBody
 
-	bodyByteArr, err := io.ReadAll(req.Body)
+	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read request body: %v", err)
 		return
@@ -392,6 +461,8 @@ func DeleteItem(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Println("--------- SUCCESS")
+	cancel()
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("SUCCESS"))
 }
