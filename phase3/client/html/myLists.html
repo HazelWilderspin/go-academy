@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="app-header"></div>
+    <div class="list-main">
+      <h2 class="list-h2">
+        Hello {{.Forename}}, you currently have {{.ListCount}} active list(s)
+      </h2>
+
+      {{range .Lists}}
+      <div
+        x-data="{ open: false, toggle() { this.open = ! this.open } }"
+        class="list-container"
+      >
+        <div class="list-expand" @click="toggle()">
+          <h2>{{.ListName}}</h2>
+          <span>{{ if .IsComplete }}Complete{{ else }}Incomplete{{end}}</span>
+        </div>
+
+        <div class="item-container" x-show="open">
+          {{range .Items}}
+          <div class="item">
+            <div class="item-inputs">
+              <p class="item-name">{{.ItemName}}</p>
+              <p class="item-desc">{{.ItemDesc}}</p>
+            </div>
+            <!-- <div class="item-inputs">
+              <input class="item-name-input" value="{{.ItemName}}" />
+              <input class="item-desc-input" value="{{.ItemDesc}}" />
+            </div> -->
+            <!-- <div class="item-btns">
+              <input type="button" class="item-delete" value="X" />
+              <input
+                type="checkbox"
+                checked="{{.ItemIsChecked}}"
+                class="item-check"
+              />
+            </div> -->
+          </div>
+          {{end}}
+        </div>
+
+        <form class="actions-container" x-show="open">
+          <input type="button" class="item-add-btn" value="ADD ITEM" />
+          <input type="button" class="list-delete-btn" value="DELETE LIST" />
+        </form>
+      </div>
+      {{end}}
+
+      <form class="list-add-form" action="/addListForm" method="POST">
+        <input type="submit" class="list-add-btn" value="NEW LIST" />
+      </form>
+    </div>
+    <div class="app-footer"></div>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>

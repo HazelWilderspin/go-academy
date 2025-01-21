@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="app-header"></div>
+    <div class="list-main">
+      <form class="new-list-container" action="/submitNewList" method="POST">
+        <h2 class="login-msg">You are creating a new list:</h2>
+        <div>
+          <input
+            class="list-name-input"
+            type="text"
+            name="list_name"
+            placeholder="Please give your new list a name"
+          />
+
+          <div class="new-item-container">
+            <input
+              class="item-name-input"
+              type="text"
+              name="item_name_1"
+              placeholder="Item 1 name"
+            />
+
+            <input
+              class="item-desc-input"
+              type="text"
+              name="item_desc_1"
+              placeholder="Description"
+            />
+          </div>
+          <div class="new-item-container">
+            <input
+              class="item-name-input"
+              type="text"
+              name="item_name_1"
+              placeholder="Item 2 name"
+            />
+            <input
+              class="item-desc-input"
+              type="text"
+              name="item_desc_2"
+              placeholder="Description"
+            />
+          </div>
+          <div class="new-item-container">
+            <input
+              class="item-name-input"
+              type="text"
+              name="item_name_3"
+              placeholder="Item 3 name"
+            />
+            <input
+              class="item-desc-input"
+              type="text"
+              name="item_desc_3"
+              placeholder="Description"
+            />
+          </div>
+        </div>
+
+        <input type="submit" class="list-add-btn" value="SUBMIT" />
+      </form>
+    </div>
+    <div class="app-footer"></div>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>
