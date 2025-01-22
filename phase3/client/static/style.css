@@ -59,12 +59,13 @@ body {
   width: 6rem;
   display: block;
   margin: auto;
+  cursor: pointer;
 }
 .login-btn:hover {
   border-color: var(--GolangBlue);
 }
-/* --------------- List page --------------- */
 
+/* --------------- List page --------------- */
 .list-main {
   height: 80vh;
   background-color: black;
@@ -132,7 +133,7 @@ body {
   padding: 0.2em;
   margin: 0.5rem 0 0.5rem 0.5rem;
   display: flex;
-  cursor: crosshair;
+  cursor: pointer;
 }
 .list-add-form {
   display: flex;
@@ -165,6 +166,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  cursor: pointer;
 }
 
 .item-name {
@@ -209,6 +211,9 @@ body {
   margin: 0 0 0.5rem 0.5rem;
   display: flex;
   justify-self: right;
+  align-items: anchor-center;
+  justify-content: space-around;
+  cursor: pointer;
 }
 .item-add-btn {
   background-color: var(--OffsetGrey);
@@ -222,6 +227,9 @@ body {
   margin: 0 0 0.5rem 0.5rem;
   display: flex;
   justify-self: right;
+  align-items: anchor-center;
+  justify-content: space-around;
+  cursor: pointer;
 }
 .actions-container {
   display: flex;

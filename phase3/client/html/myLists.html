@@ -43,7 +43,7 @@
             <!-- <div class="item-inputs">
               <input class="item-name-input" value="{{.ItemName}}" />
               <input class="item-desc-input" value="{{.ItemDesc}}" />
-            </div> -->
+            </div>  -->
             <!-- <div class="item-btns">
               <input type="button" class="item-delete" value="X" />
               <input
@@ -56,10 +56,29 @@
           {{end}}
         </div>
 
-        <form class="actions-container" x-show="open">
-          <input type="button" class="item-add-btn" value="ADD ITEM" />
-          <input type="button" class="list-delete-btn" value="DELETE LIST" />
-        </form>
+        <div class="actions-container" x-show="open">
+          <form action="/addItem">
+            <button
+              type="submit"
+              class="item-add-btn"
+              name="item-add-btn"
+              value="{{.ListId}}"
+            >
+              ADD ITEM
+            </button>
+          </form>
+
+          <form action="/deleteList">
+            <button
+              type="submit"
+              class="list-delete-btn"
+              name="list-delete-btn"
+              value="{{.ListId}}"
+            >
+              DELETE LIST
+            </button>
+          </form>
+        </div>
       </div>
       {{end}}
 

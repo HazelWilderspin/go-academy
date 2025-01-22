@@ -1,4 +1,4 @@
-package rest
+package actions
 
 import (
 	"sync"
@@ -33,22 +33,4 @@ type User struct {
 type Store struct {
 	Data []User
 	Lock sync.RWMutex
-}
-
-type GetUserRequestBody struct {
-	Username string `json:"username"`
-}
-
-type GetUserResponseBody struct {
-	UserDetailId    uuid.UUID `json:"user_detail_id"`
-	UserName        string    `json:"username"`
-	Forename        string    `json:"forename"`
-	UserPermissions string    `json:"user_permissions"`
-	InitDate        string    `json:"init_date"`
-	Lists           []List    `json:"lists"`
-}
-
-type PostListRequestBody struct {
-	UserDetailId uuid.UUID `json:"user_detail_id"`
-	NewList      List      `json:"list"`
 }

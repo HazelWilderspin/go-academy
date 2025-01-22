@@ -1,13 +1,13 @@
 package main
 
 import (
+	"client/actor"
+	"client/handlers"
 	"embed"
 	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
-
-	h "client/handlers"
 )
 
 var (
@@ -31,14 +31,23 @@ func main() {
 	slogHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{AddSource: true}).WithAttrs(defaultAttrs)
 	slog.SetDefault(slog.New(&ContextHandler{Handler: slogHandler}))
 
+	defer func() {
+		fmt.Println("Closing RequestChannel channel")
+		close(actor.RequestChannel)
+	}()
+
+	go actor.Actor()
+
 	mux := http.NewServeMux()
 
 	mux.Handle("/static/", http.FileServer(http.FS(static)))
 
-	mux.Handle("/login", http.HandlerFunc(h.HomePageHandler))
-	mux.Handle("/myLists", http.HandlerFunc(h.LoginHandler))
-	mux.Handle("/addListForm", http.HandlerFunc(h.NewListHandler))
-	mux.Handle("/submitNewList", http.HandlerFunc(h.SubmitListFormHandler))
+	mux.Handle("/login", http.HandlerFunc(handlers.HomePageHandler))
+	mux.Handle("/myLists", http.HandlerFunc(handlers.LoginHandler))
+	mux.Handle("/addListForm", http.HandlerFunc(handlers.NewListPageHandler))
+	mux.Handle("/submitNewList", http.HandlerFunc(handlers.SubmitListFormHandler))
+	mux.Handle("/deleteList", http.HandlerFunc(handlers.DeleteListHandler))
+	mux.Handle("/addItem", http.HandlerFunc(handlers.AddItemHandler))
 
 	srv := &http.Server{Addr: "0.0.0.0:8090", Handler: mux}
 

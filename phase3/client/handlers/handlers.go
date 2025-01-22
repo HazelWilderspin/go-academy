@@ -1,25 +1,19 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log/slog"
 	"net/http"
 	"strings"
 	"text/template"
 
-	r "client/actions"
+	"client/actions"
+	"client/actor"
 
 	"github.com/google/uuid"
 )
 
-type Store struct {
-	UserDetailId uuid.UUID
-	Username     string
-	Forename     string
-	ListCount    int
-	Lists        []r.List
-}
-
-var STORE Store
+var DUMMY_CACHE Cache
 
 func HomePageHandler(w http.ResponseWriter, req *http.Request) {
 	var err error
@@ -45,14 +39,25 @@ func LoginHandler(w http.ResponseWriter, req *http.Request) {
 	defer func() {
 		if err != nil {
 			slog.Error(err.Error())
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
-	username := req.FormValue("user_name")
+	username := strings.TrimSpace(strings.ToUpper(req.FormValue("user_name")))
 
-	user, err := r.GetUser(strings.TrimSpace(strings.ToUpper(username)))
+	reqBody, err := json.Marshal(GetUserRequestBody{username})
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		return
+	}
+
+	marshalledData, err := actor.AddRequestToRequestChannel(reqBody, "GetUser")
+	if err != nil {
+		return
+	}
+
+	var user actions.User
+	err = json.Unmarshal(marshalledData, &user)
+	if err != nil {
 		return
 	}
 
@@ -61,7 +66,7 @@ func LoginHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	STORE = Store{
+	DUMMY_CACHE = Cache{
 		UserDetailId: user.UserDetailId,
 		Username:     user.UserName,
 		Forename:     user.Forename,
@@ -69,13 +74,13 @@ func LoginHandler(w http.ResponseWriter, req *http.Request) {
 		Lists:        user.Lists,
 	}
 
-	err = page_template.Execute(w, STORE)
+	err = page_template.Execute(w, DUMMY_CACHE)
 	if err != nil {
 		return
 	}
 }
 
-func NewListHandler(w http.ResponseWriter, req *http.Request) {
+func NewListPageHandler(w http.ResponseWriter, req *http.Request) {
 	var err error
 	defer func() {
 		if err != nil {
@@ -87,12 +92,10 @@ func NewListHandler(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
-
-	err = page_template.Execute(w, STORE)
+	err = page_template.Execute(w, DUMMY_CACHE)
 	if err != nil {
 		return
 	}
-
 }
 
 func SubmitListFormHandler(w http.ResponseWriter, req *http.Request) {
@@ -103,38 +106,162 @@ func SubmitListFormHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	newList := makeList()
+	// Auto-filled dummy form
+	var items []actions.Item
+	newItem1 := makeItem(req.FormValue("item_name_1"), req.FormValue("item_desc_1"))
+	newItem2 := makeItem(req.FormValue("item_name_2"), req.FormValue("item_desc_2"))
+	newItem3 := makeItem(req.FormValue("item_name_3"), req.FormValue("item_desc_3"))
+	items = append(items, newItem1, newItem2, newItem3)
+	newList := makeList(req.FormValue("list_name"), items)
 
-	responseCode, err := r.PostList(&STORE.UserDetailId, newList)
+	reqBody, err := json.Marshal(PostListRequestBody{DUMMY_CACHE.UserDetailId, newList})
 	if err != nil {
-		slog.Error(err.Error())
 		return
 	}
 
-	http.Redirect(w, req, "/myLists", responseCode)
+	_, err = actor.AddRequestToRequestChannel(reqBody, "PostList")
 
+	err = refreshCache()
+	if err != nil {
+		return
+	}
+
+	page_template, err := template.ParseFiles("html/myLists.html")
+	if err != nil {
+		return
+	}
+
+	err = page_template.Execute(w, DUMMY_CACHE)
+	if err != nil {
+		return
+	}
 }
 
-func makeItem() r.Item {
-	newItem := r.Item{
-		ItemId:        uuid.New(),
-		ItemName:      "ITEM",
-		ItemDesc:      "Description",
-		ItemIsChecked: false}
-	return newItem
+func DeleteListHandler(w http.ResponseWriter, req *http.Request) {
+	var err error
+	defer func() {
+		if err != nil {
+			slog.Error(err.Error())
+		}
+	}()
+
+	listId := uuid.Must(uuid.Parse(req.FormValue("list-delete-btn")))
+	reqBody, err := json.Marshal(DeleteListRequestBody{DUMMY_CACHE.UserDetailId, listId})
+	if err != nil {
+		return
+	}
+
+	_, err = actor.AddRequestToRequestChannel(reqBody, "DeleteList")
+
+	err = refreshCache()
+	if err != nil {
+		return
+	}
+
+	page_template, err := template.ParseFiles("html/myLists.html")
+	if err != nil {
+		return
+	}
+
+	err = page_template.Execute(w, DUMMY_CACHE)
+	if err != nil {
+		return
+	}
 }
 
-func makeList() r.List {
-	var items []r.Item
-	newItem := makeItem()
-	items = append(items, newItem)
+func AddItemHandler(w http.ResponseWriter, req *http.Request) {
+	var err error
+	defer func() {
+		if err != nil {
+			slog.Error(err.Error())
+		}
+	}()
 
-	newList := r.List{
-		ListId:     uuid.New(),
-		ListName:   "PHASE 3 TEST CREATE LIST",
-		InitDate:   "2012-04-23T18:25:43.511Z",
-		IsComplete: false,
-		Items:      items}
+	newItem := makeItem("Dummy item", "Dummy description")
 
-	return newList
+	listId := uuid.Must(uuid.Parse(req.FormValue("item-add-btn")))
+	reqBody, err := json.Marshal(AddItemRequestBody{DUMMY_CACHE.UserDetailId, listId, newItem})
+	if err != nil {
+		return
+	}
+
+	_, err = actor.AddRequestToRequestChannel(reqBody, "PostItem")
+
+	err = refreshCache()
+	if err != nil {
+		return
+	}
+
+	page_template, err := template.ParseFiles("html/myLists.html")
+	if err != nil {
+		return
+	}
+
+	err = page_template.Execute(w, DUMMY_CACHE)
+	if err != nil {
+		return
+	}
+}
+
+func DeleteItemHandler(w http.ResponseWriter, req *http.Request) {
+	var err error
+	defer func() {
+		if err != nil {
+			slog.Error(err.Error())
+		}
+	}()
+
+	listId := uuid.Must(uuid.Parse(req.FormValue("item-add-btn")))
+	itemId := uuid.Must(uuid.Parse(req.FormValue("item-add-btn")))
+
+	reqBody, err := json.Marshal(DeleteItemRequestBody{DUMMY_CACHE.UserDetailId, listId, itemId})
+	if err != nil {
+		return
+	}
+
+	_, err = actor.AddRequestToRequestChannel(reqBody, "PostItem")
+
+	err = refreshCache()
+	if err != nil {
+		return
+	}
+
+	page_template, err := template.ParseFiles("html/myLists.html")
+	if err != nil {
+		return
+	}
+
+	err = page_template.Execute(w, DUMMY_CACHE)
+	if err != nil {
+		return
+	}
+}
+
+// Hacked rubbish so I don't need to learn alpine form binding!
+func refreshCache() error {
+	reqBody, err := json.Marshal(GetUserRequestBody{DUMMY_CACHE.Username})
+	if err != nil {
+		return err
+	}
+
+	marshalledData, err := actor.AddRequestToRequestChannel(reqBody, "GetUser")
+	if err != nil {
+		return err
+	}
+
+	var user actions.User
+	err = json.Unmarshal(marshalledData, &user)
+	if err != nil {
+		return err
+	}
+
+	DUMMY_CACHE = Cache{
+		UserDetailId: user.UserDetailId,
+		Username:     user.UserName,
+		Forename:     user.Forename,
+		ListCount:    len(user.Lists),
+		Lists:        user.Lists,
+	}
+
+	return err
 }

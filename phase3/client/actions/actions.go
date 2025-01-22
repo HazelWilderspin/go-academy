@@ -1,62 +1,108 @@
-package rest
+package actions
 
 import (
 	"bufio"
 	"bytes"
-	"encoding/json"
+	"errors"
+	"log/slog"
+
 	"fmt"
 	"net/http"
-
-	"github.com/google/uuid"
 )
 
-func GetUser(username string) (User, error) {
-	var user User
-	var marshalledData []byte
+var clt http.Client
 
-	reqBody, err := json.Marshal(GetUserRequestBody{username})
+func GetUser(reqBody []byte) ([]byte, error) {
+	fmt.Println("GetUser action called")
+
+	resp, err := clt.Post("http://localhost:8080/GetUser", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
-		return User{}, err
+		slog.Error(err.Error())
+		return nil, err
 	}
 
-	resp, err := http.Post("http://localhost:8080/GetUser", "application/json", bytes.NewBuffer(reqBody))
-	if err != nil {
-		return User{}, err
-	}
 	defer resp.Body.Close()
 
-	fmt.Println("Response status:", resp.Status)
+	var marshalledData []byte
 
 	scanner := bufio.NewScanner(resp.Body)
 	for scanner.Scan() {
 		marshalledData = append(marshalledData, scanner.Bytes()...)
 	}
-	if err := scanner.Err(); err != nil {
-		return User{}, err
+	if scanner.Err() != nil {
+		return nil, scanner.Err()
+	}
+	if resp.StatusCode != 200 {
+		err = errors.New(resp.Status)
 	}
 
-	err = json.Unmarshal(marshalledData, &user)
-	if err != nil {
-		return User{}, err
-	}
-
-	return user, err
+	return marshalledData, err
 }
 
-func PostList(UserDetailId *uuid.UUID, NewList List) (int, error) {
-	fmt.Printf("UserId: %v\n NewList: %v\n", UserDetailId, NewList)
-	reqBody, err := json.Marshal(PostListRequestBody{*UserDetailId, NewList})
+func PostList(reqBody []byte) error {
+	fmt.Println("PostList action called")
+
+	resp, err := clt.Post("http://localhost:8080/PostList", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	resp, err := http.Post("http://localhost:8080/PostList", "application/json", bytes.NewBuffer(reqBody))
-	if err != nil {
-		return 0, err
-	}
 	defer resp.Body.Close()
 
-	fmt.Println("Response status:", resp.Status)
+	if resp.StatusCode != 200 {
+		err = errors.New(resp.Status)
+	}
 
-	return resp.StatusCode, err
+	return err
+}
+
+func DeleteList(reqBody []byte) error {
+	fmt.Println("DeleteList action called")
+
+	resp, err := clt.Post("http://localhost:8080/DeleteList", "application/json", bytes.NewBuffer(reqBody))
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		err = errors.New(resp.Status)
+	}
+
+	return err
+}
+
+func PostItem(reqBody []byte) error {
+	fmt.Println("PostItem action called")
+
+	resp, err := clt.Post("http://localhost:8080/PostItem", "application/json", bytes.NewBuffer(reqBody))
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		err = errors.New(resp.Status)
+	}
+
+	return err
+}
+
+func DeleteItem(reqBody []byte) error {
+	fmt.Println("DeleteItem action called")
+
+	resp, err := clt.Post("http://localhost:8080/DeleteItem", "application/json", bytes.NewBuffer(reqBody))
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		err = errors.New(resp.Status)
+	}
+
+	return err
 }
