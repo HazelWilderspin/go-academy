@@ -48,6 +48,7 @@ func main() {
 	mux.Handle("/submitNewList", http.HandlerFunc(handlers.SubmitListFormHandler))
 	mux.Handle("/deleteList", http.HandlerFunc(handlers.DeleteListHandler))
 	mux.Handle("/addItem", http.HandlerFunc(handlers.AddItemHandler))
+	mux.Handle("/deleteItem", http.HandlerFunc(handlers.DeleteItemHandler))
 
 	srv := &http.Server{Addr: "0.0.0.0:8090", Handler: mux}
 

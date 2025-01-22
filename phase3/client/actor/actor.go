@@ -3,6 +3,7 @@ package actor
 import (
 	"client/actions"
 	"fmt"
+	"log/slog"
 )
 
 var RequestChannel = make(chan Request, 100)
@@ -40,7 +41,7 @@ func Actor() {
 			request.ResponseChannel <- Response{nil, err}
 
 		default:
-			fmt.Println("Actor defaulted")
+			slog.Error("Actor defaulted, request action not viable")
 		}
 	}
 }

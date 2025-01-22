@@ -51,19 +51,19 @@
         "items": [
           {
             "item_id": "72cf594f-2cbf-4ed7-bf50-d84039a0ce84",
-            "item_name": "Learn basic GoLang",
+            "item_name": "Build a server in Go",
             "item_description": "Watch tutorials, take notes",
             "item_is_checked": true
           },
           {
             "item_id": "587a37ef-dcb5-4a94-a2f4-5e0ae8a68cd8",
             "item_name": "Design target MSSSMS data",
-            "item_description": "Write up scripts to build relational db for Todo app",
+            "item_description": "Write up CREATE DROP and POPULATE scripts to build relational db for Todo app",
             "item_is_checked": true
           },
           {
             "item_id": "6b1ea85d-e40a-4e29-a1ed-7c725431ad65",
-            "item_name": "Mock JSON",
+            "item_name": "Mock up JSON",
             "item_description": "Scratch up a model for your mid tier data",
             "item_is_checked": false
           }
@@ -75,6 +75,92 @@
         "list_init_date": "2012-04-23T18:25:43.511Z",
         "list_is_complete": false,
         "items": []
+      },
+      {
+        "list_id": "9aefb878-6c6e-44a2-9b29-ea4da7494585",
+        "list_name": "Shopping list",
+        "list_init_date": "2025-04-23T18:25:43.511Z",
+        "list_is_complete": false,
+        "items": [
+          {
+            "item_id": "cb99efb1-3c13-41a5-979c-486bbc8875a7",
+            "item_name": "Cake",
+            "item_description": "Red velvet or lemon",
+            "item_is_checked": false
+          },
+          {
+            "item_id": "12045048-18bd-46bc-a1de-0d22b15d19f6",
+            "item_name": "Nuts and snacks",
+            "item_description": "Maise covered peanuts \u003e chilli or paprika \u003e salt and pepper cashews",
+            "item_is_checked": false
+          },
+          {
+            "item_id": "5e8bc885-8d9c-40da-8ce3-90d205de0eb3",
+            "item_name": "Cheese",
+            "item_description": "Brie or mild cheddar, no blue cheeses!",
+            "item_is_checked": false
+          },
+          {
+            "item_id": "9e2fbaff-cf72-494d-ac02-9dc94c34310d",
+            "item_name": "Milk",
+            "item_description": "",
+            "item_is_checked": false
+          }
+        ]
+      },
+      {
+        "list_id": "18ea0c50-6dbc-4eb2-ad18-ab1fabd3486e",
+        "list_name": "Annie going away",
+        "list_init_date": "2025-04-23T18:25:43.511Z",
+        "list_is_complete": false,
+        "items": [
+          {
+            "item_id": "7e6427bd-9622-4130-8e64-eee8b4859a6f",
+            "item_name": "Feed cat",
+            "item_description": "Key under blue plantpot",
+            "item_is_checked": false
+          }
+        ]
+      },
+      {
+        "list_id": "5b4099dd-854f-41b9-8e39-7e239b654128",
+        "list_name": "DIY",
+        "list_init_date": "2025-04-23T18:25:43.511Z",
+        "list_is_complete": false,
+        "items": [
+          {
+            "item_id": "eb30836c-3e41-4617-81d2-905d4f64ddf3",
+            "item_name": "Tile bathroom",
+            "item_description": "Need new adhesive and extra spacers",
+            "item_is_checked": false
+          },
+          {
+            "item_id": "2b5688fc-83cf-4d75-b563-ac13acbd336c",
+            "item_name": "Paint bathroom ceiling",
+            "item_description": "Do this first, so you don't get paint on the new tiles",
+            "item_is_checked": false
+          },
+          {
+            "item_id": "bbff28df-01dc-4fed-b84c-1523a1f3e384",
+            "item_name": "Floor thermostat",
+            "item_description": "Need to get something to connect the thermostat to the circuit board",
+            "item_is_checked": false
+          }
+        ]
+      },
+      {
+        "list_id": "7b798780-d035-4147-9b08-218a38d01fea",
+        "list_name": "Gifts",
+        "list_init_date": "2025-04-23T18:25:43.511Z",
+        "list_is_complete": false,
+        "items": [
+          {
+            "item_id": "7b3be520-1ec8-4210-bd2d-9793a4bc662b",
+            "item_name": "Nicky",
+            "item_description": "Cocktail paraphernalia",
+            "item_is_checked": false
+          }
+        ]
       }
     ]
   },

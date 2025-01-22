@@ -87,6 +87,7 @@ func listActions() {
 				}
 			}
 		}
+		saveFile()
 		itemActions(listName)
 
 	case "deleteList":
@@ -159,7 +160,7 @@ func itemActions(listName string) {
 				}
 			}
 		}
-
+		saveFile()
 	case "toggleItemCheck":
 		itemName, err := repl.FormItemNameToToggleCheck()
 		if err != nil {
@@ -180,7 +181,7 @@ func itemActions(listName string) {
 				}
 			}
 		}
-
+		saveFile()
 	case "reassignItemName":
 		itemName, err := repl.FormItemNameToUpdate()
 		if err != nil {
@@ -204,7 +205,7 @@ func itemActions(listName string) {
 				}
 			}
 		}
-
+		saveFile()
 	case "editItemDescription":
 		itemName, err := repl.FormItemNameToUpdate()
 		if err != nil {
@@ -229,7 +230,7 @@ func itemActions(listName string) {
 				}
 			}
 		}
-
+		saveFile()
 	case "deleteItem":
 		itemName, err := repl.FormItemNameToUpdate()
 		if err != nil {
@@ -253,6 +254,7 @@ func itemActions(listName string) {
 				}
 			}
 		}
+		saveFile()
 	case "back":
 		listActions()
 		return

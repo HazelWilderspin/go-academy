@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"strings"
@@ -106,7 +107,6 @@ func SubmitListFormHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	// Auto-filled dummy form
 	var items []actions.Item
 	newItem1 := makeItem(req.FormValue("item_name_1"), req.FormValue("item_desc_1"))
 	newItem2 := makeItem(req.FormValue("item_name_2"), req.FormValue("item_desc_2"))
@@ -145,7 +145,7 @@ func DeleteListHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	listId := uuid.Must(uuid.Parse(req.FormValue("list-delete-btn")))
+	listId := uuid.Must(uuid.Parse(req.FormValue("list_delete_btn")))
 	reqBody, err := json.Marshal(DeleteListRequestBody{DUMMY_CACHE.UserDetailId, listId})
 	if err != nil {
 		return
@@ -177,9 +177,18 @@ func AddItemHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	newItem := makeItem("Dummy item", "Dummy description")
+	newItemName := req.FormValue("new_item_name")
+	fmt.Println("newItemName: ", newItemName)
 
-	listId := uuid.Must(uuid.Parse(req.FormValue("item-add-btn")))
+	newItemDesc := req.FormValue("new_item_desc")
+	fmt.Println("newItemDesc: ", newItemDesc)
+
+	newItem := makeItem(newItemName, newItemDesc)
+	fmt.Println("newItem: ", newItem)
+
+	listId := uuid.Must(uuid.Parse(req.FormValue("item_add_btn")))
+	fmt.Println("listId: ", listId)
+
 	reqBody, err := json.Marshal(AddItemRequestBody{DUMMY_CACHE.UserDetailId, listId, newItem})
 	if err != nil {
 		return
@@ -211,15 +220,15 @@ func DeleteItemHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	listId := uuid.Must(uuid.Parse(req.FormValue("item-add-btn")))
-	itemId := uuid.Must(uuid.Parse(req.FormValue("item-add-btn")))
+	itemId := uuid.Must(uuid.Parse(req.FormValue("item_delete_btn")))
+	listId := uuid.Must(uuid.Parse(req.FormValue("list_id")))
 
 	reqBody, err := json.Marshal(DeleteItemRequestBody{DUMMY_CACHE.UserDetailId, listId, itemId})
 	if err != nil {
 		return
 	}
 
-	_, err = actor.AddRequestToRequestChannel(reqBody, "PostItem")
+	_, err = actor.AddRequestToRequestChannel(reqBody, "DeleteItem")
 
 	err = refreshCache()
 	if err != nil {

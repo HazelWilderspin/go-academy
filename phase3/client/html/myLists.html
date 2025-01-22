@@ -3,6 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-do app</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,76 +18,101 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css" />
   </head>
   <body>
-    <div class="app-header"></div>
-    <div class="list-main">
-      <h2 class="list-h2">
-        Hello {{.Forename}}, you currently have {{.ListCount}} active list(s)
-      </h2>
+    <header class="app-header"></header>
+    <div class="main">
+      <div class="list-gopher-shield">
+        <h2 class="msg">
+          Hello {{.Forename}}, you currently have {{.ListCount}} active list(s)
+        </h2>
 
-      {{range .Lists}}
-      <div
-        x-data="{ open: false, toggle() { this.open = ! this.open } }"
-        class="list-container"
-      >
-        <div class="list-expand" @click="toggle()">
-          <h2>{{.ListName}}</h2>
-          <span>{{ if .IsComplete }}Complete{{ else }}Incomplete{{end}}</span>
-        </div>
-
-        <div class="item-container" x-show="open">
-          {{range .Items}}
-          <div class="item">
-            <div class="item-inputs">
-              <p class="item-name">{{.ItemName}}</p>
-              <p class="item-desc">{{.ItemDesc}}</p>
-            </div>
-            <!-- <div class="item-inputs">
-              <input class="item-name-input" value="{{.ItemName}}" />
-              <input class="item-desc-input" value="{{.ItemDesc}}" />
-            </div>  -->
-            <!-- <div class="item-btns">
-              <input type="button" class="item-delete" value="X" />
-              <input
-                type="checkbox"
-                checked="{{.ItemIsChecked}}"
-                class="item-check"
-              />
-            </div> -->
+        {{range .Lists}}
+        <div
+          x-data="{ open: false, toggle() { this.open = ! this.open }}"
+          class="list-container"
+        >
+          <div class="list-expand" @click="toggle()">
+            <h2>{{.ListName}}</h2>
+            <span>{{ if .IsComplete }}Complete{{ else }}Incomplete{{end}}</span>
           </div>
-          {{end}}
-        </div>
 
-        <div class="actions-container" x-show="open">
-          <form action="/addItem">
-            <button
-              type="submit"
-              class="item-add-btn"
-              name="item-add-btn"
-              value="{{.ListId}}"
-            >
-              ADD ITEM
-            </button>
-          </form>
+          <div class="items-container" x-show="open">
+            {{$listId := .ListId}} {{range .Items}}
+            <div class="item">
+              <div class="item-inputs">
+                <p class="item-name">{{.ItemName}}</p>
+                <p class="item-desc">{{.ItemDesc}}</p>
+              </div>
 
-          <form action="/deleteList">
-            <button
-              type="submit"
-              class="list-delete-btn"
-              name="list-delete-btn"
-              value="{{.ListId}}"
-            >
-              DELETE LIST
-            </button>
-          </form>
+              <form
+                class="item-actions-container"
+                action="/deleteItem"
+                method="POST"
+              >
+                <input
+                  type="hidden"
+                  id="list_id"
+                  name="list_id"
+                  value="{{$listId}}"
+                />
+                <button
+                  type="submit"
+                  class="item-delete-btn"
+                  name="item_delete_btn"
+                  value="{{.ItemId}}"
+                >
+                  x
+                </button>
+              </form>
+            </div>
+            {{end}}
+
+            <form class="item" action="/addItem" method="POST">
+              <div class="item-input-container">
+                <input
+                  class="item-name-input"
+                  name="new_item_name"
+                  placeholder="New item name"
+                />
+                <input
+                  class="item-desc-input"
+                  name="new_item_desc"
+                  placeholder="Description or additional info"
+                />
+              </div>
+              <div class="item-actions-container">
+                <button
+                  type="submit"
+                  class="item-add-btn"
+                  name="item_add_btn"
+                  value="{{.ListId}}"
+                >
+                  +
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="list-actions-container" x-show="open">
+            <form action="/deleteList" method="POST">
+              <button
+                type="submit"
+                class="list-delete-btn"
+                name="list_delete_btn"
+                value="{{.ListId}}"
+              >
+                DELETE LIST
+              </button>
+            </form>
+          </div>
         </div>
+        {{end}}
+
+        <form class="list-add-form" action="/addListForm" method="POST">
+          <button type="submit" class="list-add-btn">ADD LIST</button>
+        </form>
       </div>
-      {{end}}
-
-      <form class="list-add-form" action="/addListForm" method="POST">
-        <input type="submit" class="list-add-btn" value="NEW LIST" />
-      </form>
     </div>
-    <div class="app-footer"></div>
+    <footer class="app-footer"></footer>
     <script src="//unpkg.com/alpinejs" defer></script>
   </body>
 </html>

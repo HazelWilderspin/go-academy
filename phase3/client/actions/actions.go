@@ -29,9 +29,11 @@ func GetUser(reqBody []byte) ([]byte, error) {
 	for scanner.Scan() {
 		marshalledData = append(marshalledData, scanner.Bytes()...)
 	}
+
 	if scanner.Err() != nil {
 		return nil, scanner.Err()
 	}
+
 	if resp.StatusCode != 200 {
 		err = errors.New(resp.Status)
 	}

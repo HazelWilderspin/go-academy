@@ -1,0 +1,240 @@
+[
+    {
+      "user_detail_id": "93d0a8e0-50f1-49b2-beec-7ed5509de28a",
+      "username": "DELTA",
+      "forename": "Dahlia",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": []
+    },
+    {
+      "user_detail_id": "e4192e23-e56b-46a9-81e9-26aec5a3a3fc",
+      "username": "ZULU",
+      "forename": "You",
+      "user_permissions": "ADMIN",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": []
+    },
+    {
+      "user_detail_id": "aed8e9aa-077c-4951-b40e-374ef7d4928d",
+      "username": "CHARLIE",
+      "forename": "Charlie",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": []
+    },
+    {
+      "user_detail_id": "5ad98d52-5c4e-412e-a6ad-d33598f22c9e",
+      "username": "ALPHA",
+      "forename": "Alice",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": [
+        {
+          "list_id": "17f0603d-a086-41f3-b42c-d4021f900431",
+          "list_name": "Alice's list two",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "4bd26263-efbb-49d6-92f7-48fc0de092fe",
+              "item_name": "Check doors",
+              "item_description": "Sneak out for a smoke",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user_detail_id": "e696392e-585f-4e85-b8d0-cff4e34f8f36",
+      "username": "BRAVO",
+      "forename": "Bobby",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": [
+        {
+          "list_id": "461800bf-84f3-4c10-bf9a-b4a88af69acb",
+          "list_name": "Learning objectives",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "72cf594f-2cbf-4ed7-bf50-d84039a0ce84",
+              "item_name": "Build a server in Go",
+              "item_description": "Watch tutorials, take notes",
+              "item_is_checked": true
+            },
+            {
+              "item_id": "587a37ef-dcb5-4a94-a2f4-5e0ae8a68cd8",
+              "item_name": "Design target MSSSMS data",
+              "item_description": "Write up CREATE DROP and POPULATE scripts to build relational db for Todo app",
+              "item_is_checked": true
+            },
+            {
+              "item_id": "6b1ea85d-e40a-4e29-a1ed-7c725431ad65",
+              "item_name": "Mock up JSON",
+              "item_description": "Scratch up a model for your mid tier data",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "9aefb878-6c6e-44a2-9b29-ea4da7494585",
+          "list_name": "Shopping list",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "cb99efb1-3c13-41a5-979c-486bbc8875a7",
+              "item_name": "Cake",
+              "item_description": "Red velvet or lemon",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "12045048-18bd-46bc-a1de-0d22b15d19f6",
+              "item_name": "Nuts and snacks",
+              "item_description": "Maise covered peanuts \u003e chilli or paprika \u003e salt and pepper cashews",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "5e8bc885-8d9c-40da-8ce3-90d205de0eb3",
+              "item_name": "Cheese",
+              "item_description": "Brie or mild cheddar, no blue cheeses!",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "9e2fbaff-cf72-494d-ac02-9dc94c34310d",
+              "item_name": "Milk",
+              "item_description": "",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "18ea0c50-6dbc-4eb2-ad18-ab1fabd3486e",
+          "list_name": "Tom holiday 20th, 1 week",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "7e6427bd-9622-4130-8e64-eee8b4859a6f",
+              "item_name": "Feed cats",
+              "item_description": "Key under blue plant pot",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "7b2f88f9-4b1a-42da-83ad-8cf2218c4b8a",
+              "item_name": "dummy valuecxzc",
+              "item_description": "dummy valuexzczc",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "5b4099dd-854f-41b9-8e39-7e239b654128",
+          "list_name": "DIY",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "eb30836c-3e41-4617-81d2-905d4f64ddf3",
+              "item_name": "Tile bathroom",
+              "item_description": "Need new adhesive and extra spacers",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "2b5688fc-83cf-4d75-b563-ac13acbd336c",
+              "item_name": "Paint bathroom ceiling",
+              "item_description": "Do this first, so you don't get paint on the new tiles",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "bbff28df-01dc-4fed-b84c-1523a1f3e384",
+              "item_name": "Floor thermostat",
+              "item_description": "Need to get something to connect the thermostat to the circuit board",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "7b798780-d035-4147-9b08-218a38d01fea",
+          "list_name": "Birthdays",
+          "list_init_date": "2025-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "7b3be520-1ec8-4210-bd2d-9793a4bc662b",
+              "item_name": "Nicky",
+              "item_description": "Cocktail paraphernalia",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "c8366297-24a0-460b-8125-95c2a088cad5",
+              "item_name": "item_name_1",
+              "item_description": "item_desc_1",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "935612d4-9778-418a-8b92-3e5ea1026db6",
+              "item_name": "item_name_1",
+              "item_description": "item_desc_1",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "0a875bf8-670c-4a11-9eb5-801cd312d68a",
+          "list_name": "",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "2adb76f4-b6e8-47af-90ee-f1d0f60b5591",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "96dbc838-750c-4192-a5a9-f9e231e61c59",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "3d5fbbb6-c92d-472a-9d18-4fee1d8f97f2",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            }
+          ]
+        },
+        {
+          "list_id": "9667a215-fb83-4fd5-ba64-32d3d5b38f62",
+          "list_name": "",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "06ea1ce4-6a97-4a35-b3e1-cc5b35b5a4f7",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "08c66bfa-cab6-4108-8a49-d271c94340e8",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "83c92231-3b84-4ce8-a5bd-1c858e4ef975",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
