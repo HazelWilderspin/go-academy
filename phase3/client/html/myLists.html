@@ -92,18 +92,21 @@
             </form>
           </div>
 
-          <div class="list-actions-container" x-show="open">
-            <form action="/deleteList" method="POST">
-              <button
-                type="submit"
-                class="list-delete-btn"
-                name="list_delete_btn"
-                value="{{.ListId}}"
-              >
-                DELETE LIST
-              </button>
-            </form>
-          </div>
+          <form
+            class="list-actions-container"
+            action="/deleteList"
+            method="POST"
+            x-show="open"
+          >
+            <button
+              type="submit"
+              class="list-delete-btn"
+              name="list_delete_btn"
+              value="{{.ListId}}"
+            >
+              DELETE LIST
+            </button>
+          </form>
         </div>
         {{end}}
 

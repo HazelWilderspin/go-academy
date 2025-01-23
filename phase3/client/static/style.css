@@ -26,7 +26,7 @@ footer {
 /* --------------- All pages --------------- */
 
 .main {
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +70,7 @@ footer {
 .login-gopher-shield {
   background-color: var(--Base);
   opacity: 97%;
-  height: 100%;
+  min-height: inherit;
   align-items: center;
   display: flex;
 }
@@ -91,7 +91,7 @@ footer {
 .list-gopher-shield {
   background-color: var(--Base);
   opacity: 97%;
-  height: 100%;
+  min-height: inherit;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,7 +132,7 @@ footer {
   flex-flow: row;
   justify-content: space-between;
   padding: 0.5rem;
-  width: 30vw;
+  width: 29vw;
 }
 
 .item-input-container {
@@ -168,7 +168,7 @@ footer {
 }
 
 .new-item-container {
-  margin: 0 auto;
+  margin: 0.5rem auto;
   display: flex;
   flex-direction: column;
 }
@@ -254,14 +254,14 @@ button:hover {
 input {
   background-color: var(--Base);
   color: var(--GolangBlue);
+  text-align: center;
 }
 
 .login-input {
   background-color: var(--OffsetGrey);
   height: 2rem;
-  width: 15rem;
+  width: 20rem;
   margin: 2rem auto 1rem;
-  text-align: center;
   display: block;
 }
 
@@ -270,7 +270,6 @@ input {
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.2rem;
-  text-align: center;
   font-size: larger;
 }
 
