@@ -122,12 +122,6 @@
               "item_name": "Feed cats",
               "item_description": "Key under blue plant pot",
               "item_is_checked": false
-            },
-            {
-              "item_id": "7b2f88f9-4b1a-42da-83ad-8cf2218c4b8a",
-              "item_name": "dummy valuecxzc",
-              "item_description": "dummy valuexzczc",
-              "item_is_checked": false
             }
           ]
         },
@@ -167,71 +161,7 @@
               "item_id": "7b3be520-1ec8-4210-bd2d-9793a4bc662b",
               "item_name": "Nicky",
               "item_description": "Cocktail paraphernalia",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "c8366297-24a0-460b-8125-95c2a088cad5",
-              "item_name": "item_name_1",
-              "item_description": "item_desc_1",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "935612d4-9778-418a-8b92-3e5ea1026db6",
-              "item_name": "item_name_1",
-              "item_description": "item_desc_1",
-              "item_is_checked": false
-            }
-          ]
-        },
-        {
-          "list_id": "0a875bf8-670c-4a11-9eb5-801cd312d68a",
-          "list_name": "",
-          "list_init_date": "2012-04-23T18:25:43.511Z",
-          "list_is_complete": false,
-          "items": [
-            {
-              "item_id": "2adb76f4-b6e8-47af-90ee-f1d0f60b5591",
-              "item_name": "",
-              "item_description": "",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "96dbc838-750c-4192-a5a9-f9e231e61c59",
-              "item_name": "",
-              "item_description": "",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "3d5fbbb6-c92d-472a-9d18-4fee1d8f97f2",
-              "item_name": "",
-              "item_description": "",
-              "item_is_checked": false
-            }
-          ]
-        },
-        {
-          "list_id": "9667a215-fb83-4fd5-ba64-32d3d5b38f62",
-          "list_name": "",
-          "list_init_date": "2012-04-23T18:25:43.511Z",
-          "list_is_complete": false,
-          "items": [
-            {
-              "item_id": "06ea1ce4-6a97-4a35-b3e1-cc5b35b5a4f7",
-              "item_name": "",
-              "item_description": "",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "08c66bfa-cab6-4108-8a49-d271c94340e8",
-              "item_name": "",
-              "item_description": "",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "83c92231-3b84-4ce8-a5bd-1c858e4ef975",
-              "item_name": "",
-              "item_description": "",
-              "item_is_checked": false
+              "item_is_checked": true
             }
           ]
         }
