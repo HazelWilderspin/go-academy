@@ -1,0 +1,288 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  --GolangBlue: rgba(116, 227, 255, 0.849);
+  --GolangBlueFade: rgba(116, 227, 255, 0.329);
+  --WarningRed: red;
+  --AffirmGreen: green;
+  --Base: black;
+  --OffsetGrey: rgb(17, 17, 17);
+}
+
+body {
+  color: var(--GolangBlue);
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", Verdana, Tahoma, sans-serif;
+}
+
+header,
+footer {
+  background-color: var(--OffsetGrey);
+  min-height: 10vh;
+}
+
+/* --------------- All pages --------------- */
+
+.main {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
+  background-image: url("./gopher.svg");
+  background-size: 40px;
+  background-blend-mode: overlay;
+}
+
+.msg {
+  color: var(--GolangBlueFade);
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* --------------- Log in page --------------- */
+
+.login-title {
+  padding-bottom: 0.5rem;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.login-container {
+  background-color: var(--Base);
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--GolangBlue);
+  border-bottom: 1px solid var(--GolangBlue);
+  margin-bottom: 0.5rem;
+}
+
+.login-gopher-shield {
+  background-color: var(--Base);
+  opacity: 97%;
+  min-height: inherit;
+  align-items: center;
+  display: flex;
+}
+
+/* --------------- List page --------------- */
+
+.list-container {
+  background-color: var(--Base);
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--GolangBlue);
+  border-bottom: 1px solid var(--GolangBlue);
+  margin-bottom: 0.5rem;
+}
+
+.list-gopher-shield {
+  background-color: var(--Base);
+  opacity: 97%;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.list-expand {
+  border: 1px solid var(--GolangBlueFade);
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+}
+
+.list-expand:hover {
+  border-color: var(--GolangBlue);
+  color: var(--GolangBlue);
+}
+
+.list-add-form {
+  display: flex;
+  justify-content: center;
+}
+
+.list-actions-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.items-container {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  min-width: fit-content;
+}
+
+.item {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  padding: 0.5rem;
+  width: 29vw;
+}
+
+.item-input-container {
+  display: flex;
+  flex-flow: row;
+  flex-direction: column;
+  width: 100%;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.item-desc {
+  color: var(--GolangBlueFade);
+  font-family: system-ui;
+}
+
+.item-actions-container {
+  display: flex;
+}
+
+/* --------------- Add list page --------------- */
+
+.new-list-container {
+  background-color: var(--Base);
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--GolangBlue);
+  border-bottom: 1px solid var(--GolangBlue);
+}
+
+.new-item-container {
+  margin: 0.5rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Buttons */
+
+button {
+  color: var(--GolangBlueFade);
+  border-radius: 0.5em;
+  background-color: var(--OffsetGrey);
+  cursor: pointer;
+  align-items: anchor-center;
+  justify-content: space-around;
+  display: flex;
+}
+
+button:hover {
+  border-color: var(--GolangBlue);
+}
+
+.login-btn {
+  background-color: var(--OffsetGrey);
+  padding: 0.5rem;
+  width: 6rem;
+  margin: 0 auto 0.5rem;
+}
+
+.login-btn:hover {
+  color: var(--GolangBlue);
+  border-color: var(--GolangBlue);
+}
+
+.list-add-btn {
+  font-size: 0.7rem;
+  width: 5rem;
+  height: 1.8rem;
+  padding: 0.2em;
+  margin: 0.5rem auto;
+}
+
+.list-add-btn:hover {
+  color: var(--AffirmGreen);
+  border: 1px solid var(--AffirmGreen);
+}
+
+.list-delete-btn {
+  font-size: 0.7rem;
+  width: 5rem;
+  height: 1.8rem;
+  padding: 0.2em;
+  margin: 0 0 0.5rem 0.5rem;
+}
+
+.list-delete-btn:hover {
+  color: var(--WarningRed);
+  border: 1px solid var(--WarningRed);
+}
+
+.item-add-btn {
+  margin: 0 0.2rem;
+  height: 1.5rem;
+  font-weight: bold;
+}
+
+.item-add-btn:hover {
+  color: var(--AffirmGreen);
+  border: 1px solid var(--AffirmGreen);
+}
+
+.item-delete-btn {
+  margin: 0 0.2rem;
+  height: 1.5rem;
+  font-weight: bold;
+}
+
+.item-delete-btn:hover {
+  color: var(--WarningRed);
+  border: 1px solid var(--WarningRed);
+}
+
+/* Inputs  */
+
+input {
+  background-color: var(--Base);
+  color: var(--GolangBlue);
+  text-align: center;
+}
+
+.login-input {
+  background-color: var(--OffsetGrey);
+  height: 2rem;
+  width: 20rem;
+  margin: 2rem auto 1rem;
+  display: block;
+}
+
+.list-name-input {
+  height: 3rem;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.2rem;
+  font-size: larger;
+}
+
+.item-name-input {
+  height: 2rem;
+}
+
+.item-desc-input {
+  color: var(--GolangBlueFade);
+  background-color: var(--OffsetGrey);
+  height: 3rem;
+}
+
+.hidden-list-id {
+  display: none;
+}

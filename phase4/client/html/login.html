@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  </head>
+  <body>
+    <div>
+      <header class="app-header"></header>
+      <div class="main">
+        <div class="login-gopher-shield">
+          <form class="login-container" action="/myLists" method="POST">
+            <h1 class="login-title">Echo</h1>
+            <h2 class="msg">Never forget anything again!</h2>
+            <div>
+              <input
+                class="login-input"
+                type="text"
+                name="user_name"
+                placeholder="Enter username"
+              />
+            </div>
+            <div>
+              <button class="login-btn" type="submit">Go!</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <footer class="app-footer"></footer>
+    </div>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>

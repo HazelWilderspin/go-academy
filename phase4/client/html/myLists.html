@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do app</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="app-header"></header>
+    <div class="main">
+      <div class="list-gopher-shield">
+        <h2 class="msg">
+          Hello {{.Forename}}, you currently have {{.ListCount}} active list(s)
+        </h2>
+
+        {{range .Lists}}
+        <div
+          x-data="{ open: false, toggle() { this.open = ! this.open }}"
+          class="list-container"
+        >
+          <div class="list-expand" @click="toggle()">
+            <h2>{{.ListName}}</h2>
+            <span>{{ if .IsComplete }}Complete{{ else }}Incomplete{{end}}</span>
+          </div>
+
+          <div class="items-container" x-show="open">
+            {{$listId := .ListId}} {{range .Items}}
+            <div class="item">
+              <div class="item-inputs">
+                <p class="item-name">{{.ItemName}}</p>
+                <p class="item-desc">{{.ItemDesc}}</p>
+              </div>
+
+              <form
+                class="item-actions-container"
+                action="/deleteItem"
+                method="POST"
+              >
+                <input
+                  type="hidden"
+                  id="list_id"
+                  name="list_id"
+                  value="{{$listId}}"
+                />
+                <button
+                  type="submit"
+                  class="item-delete-btn"
+                  name="item_delete_btn"
+                  value="{{.ItemId}}"
+                >
+                  x
+                </button>
+              </form>
+            </div>
+            {{end}}
+
+            <form class="item" action="/addItem" method="POST">
+              <div class="item-input-container">
+                <input
+                  class="item-name-input"
+                  name="new_item_name"
+                  placeholder="New item name"
+                />
+                <input
+                  class="item-desc-input"
+                  name="new_item_desc"
+                  placeholder="Description or additional info"
+                />
+              </div>
+              <div class="item-actions-container">
+                <button
+                  type="submit"
+                  class="item-add-btn"
+                  name="item_add_btn"
+                  value="{{.ListId}}"
+                >
+                  +
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <form
+            class="list-actions-container"
+            action="/deleteList"
+            method="POST"
+            x-show="open"
+          >
+            <button
+              type="submit"
+              class="list-delete-btn"
+              name="list_delete_btn"
+              value="{{.ListId}}"
+            >
+              DELETE LIST
+            </button>
+          </form>
+        </div>
+        {{end}}
+
+        <form class="list-add-form" action="/addListForm" method="POST">
+          <button type="submit" class="list-add-btn">ADD LIST</button>
+        </form>
+      </div>
+    </div>
+    <footer class="app-footer"></footer>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>

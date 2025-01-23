@@ -1,56 +1,5 @@
 [
     {
-      "user_detail_id": "93d0a8e0-50f1-49b2-beec-7ed5509de28a",
-      "username": "DELTA",
-      "forename": "Dahlia",
-      "user_permissions": "CREATE_READ_UPDATE_DELETE",
-      "init_date": "2012-04-23T18:25:43.511Z",
-      "lists": []
-    },
-    {
-      "user_detail_id": "e4192e23-e56b-46a9-81e9-26aec5a3a3fc",
-      "username": "ZULU",
-      "forename": "You",
-      "user_permissions": "ADMIN",
-      "init_date": "2012-04-23T18:25:43.511Z",
-      "lists": []
-    },
-    {
-      "user_detail_id": "aed8e9aa-077c-4951-b40e-374ef7d4928d",
-      "username": "CHARLIE",
-      "forename": "Charlie",
-      "user_permissions": "CREATE_READ_UPDATE_DELETE",
-      "init_date": "2012-04-23T18:25:43.511Z",
-      "lists": [
-        {
-          "list_id": "13276637-937d-40c7-b686-b5508d0508f2",
-          "list_name": "Test list",
-          "list_init_date": "2012-04-23T18:25:43.511Z",
-          "list_is_complete": false,
-          "items": [
-            {
-              "item_id": "354e4eb1-f239-4944-b8ef-411a450778aa",
-              "item_name": "Test item 1",
-              "item_description": "Test description 1",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "f70f74da-b188-4b35-b9a7-5adb6008a5df",
-              "item_name": "Test item 2",
-              "item_description": "Test description 2",
-              "item_is_checked": false
-            },
-            {
-              "item_id": "30bf79b7-2d85-43c0-86ab-522c702fd9da",
-              "item_name": "Test item 3",
-              "item_description": "Test description 3",
-              "item_is_checked": false
-            }
-          ]
-        }
-      ]
-    },
-    {
       "user_detail_id": "5ad98d52-5c4e-412e-a6ad-d33598f22c9e",
       "username": "ALPHA",
       "forename": "Alice",
@@ -188,10 +137,34 @@
               "item_id": "7b3be520-1ec8-4210-bd2d-9793a4bc662b",
               "item_name": "Nicky",
               "item_description": "Cocktail paraphernalia",
-              "item_is_checked": false
+              "item_is_checked": true
             }
           ]
         }
       ]
+    },
+    {
+      "user_detail_id": "aed8e9aa-077c-4951-b40e-374ef7d4928d",
+      "username": "CHARLIE",
+      "forename": "Charlie",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": []
+    },
+    {
+      "user_detail_id": "93d0a8e0-50f1-49b2-beec-7ed5509de28a",
+      "username": "DELTA",
+      "forename": "Dan",
+      "user_permissions": "CREATE_READ_UPDATE_DELETE",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": []
+    },
+    {
+      "user_detail_id": "e4192e23-e56b-46a9-81e9-26aec5a3a3fc",
+      "username": "ZULU",
+      "forename": "You",
+      "user_permissions": "ADMIN",
+      "init_date": "2012-04-23T18:25:43.511Z",
+      "lists": []
     }
   ]
