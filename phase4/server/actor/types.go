@@ -8,11 +8,11 @@ import (
 
 type Response struct {
 	GetUserResponse crud.User
+	Err             error
 }
 
 type Request struct {
 	ResponseChannel chan Response
-	ErrorChannel    chan error
 	Action          string
 	GetUserArg      string
 	PostListArgs

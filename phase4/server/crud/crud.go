@@ -33,9 +33,6 @@ func loadMockData() error {
 		return scanner.Err()
 	}
 	err = json.Unmarshal(marshalledData, &STORE.Data)
-	if err != nil {
-		return err
-	}
 	return err
 }
 
@@ -328,16 +325,11 @@ func DeleteItem(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID) error {
 }
 
 func saveFile() error {
-
 	byteArr, err := json.MarshalIndent(STORE.Data, "  ", "  ")
 	if err != nil {
 		return err
 	}
 
 	err = os.WriteFile(FILE_PATH, byteArr, 0644)
-	if err != nil {
-		return err
-	}
-
 	return err
 }

@@ -54,7 +54,7 @@ func LoginHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var user actions.User
+	var user User
 	err = json.Unmarshal(marshalledData, &user)
 	if err != nil {
 		return
@@ -105,7 +105,7 @@ func SubmitListFormHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	var items []actions.Item
+	var items []Item
 	newItem1 := makeItem(req.FormValue("item_name_1"), req.FormValue("item_desc_1"))
 	newItem2 := makeItem(req.FormValue("item_name_2"), req.FormValue("item_desc_2"))
 	newItem3 := makeItem(req.FormValue("item_name_3"), req.FormValue("item_desc_3"))
@@ -259,7 +259,7 @@ func refreshCache() error {
 		return err
 	}
 
-	var user actions.User
+	var user User
 	err = json.Unmarshal(marshalledData, &user)
 	if err != nil {
 		return err

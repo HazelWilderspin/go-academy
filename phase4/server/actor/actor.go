@@ -14,57 +14,35 @@ func Actor() {
 	fmt.Println("Starting up RequestChannel listener")
 
 	for request := range RequestChannel {
-
 		fmt.Println("--- Actor Received action from Request channel: ", request.Action)
 
 		switch request.Action {
 		case "GetUser":
-
 			user, err := crud.ReadUser(request.GetUserArg)
-			if err != nil {
-				request.ErrorChannel <- err
-				continue
-			}
-
-			request.ResponseChannel <- Response{user}
+			request.ResponseChannel <- Response{user, err}
 
 		case "PostList":
-
 			err := crud.CreateList(request.PostListArgs.userId, request.PostListArgs.newList)
-			if err != nil {
-				request.ErrorChannel <- err
-			}
+			request.ResponseChannel <- Response{crud.User{}, err}
 
 		case "DeleteList":
-
 			err := crud.DeleteList(request.DeleteListArgs.userId, request.DeleteListArgs.listId)
-			if err != nil {
-				request.ErrorChannel <- err
-			}
+			request.ResponseChannel <- Response{crud.User{}, err}
 
 		case "PostItem":
-
 			err := crud.CreateItem(request.PostItemArgs.userId, request.PostItemArgs.listId, request.PostItemArgs.newItem)
-			if err != nil {
-				request.ErrorChannel <- err
-			}
+			request.ResponseChannel <- Response{crud.User{}, err}
 
 		case "PutItem":
-
 			_, err := crud.UpdateItem(request.PostItemArgs.userId, request.PostItemArgs.listId, request.PostItemArgs.newItem)
-			if err != nil {
-				request.ErrorChannel <- err
-			}
+			request.ResponseChannel <- Response{crud.User{}, err}
 
 		case "DeleteItem":
-
 			err := crud.DeleteItem(request.DeleteItemArgs.userId, request.DeleteItemArgs.listId, request.DeleteItemArgs.itemId)
-			if err != nil {
-				request.ErrorChannel <- err
-			}
+			request.ResponseChannel <- Response{crud.User{}, err}
 
 		default:
-			request.ErrorChannel <- errors.New("Actor defaulted, request action not viable")
+			request.ResponseChannel <- Response{crud.User{}, errors.New("Actor defaulted, request action not viable")}
 		}
 	}
 }
@@ -73,87 +51,78 @@ func AddGetUserToRequestChannel(username string, action string) (crud.User, erro
 
 	request := Request{
 		ResponseChannel: make(chan Response, 1),
-		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		GetUserArg:      username,
 	}
 
 	RequestChannel <- request
-	select {
-	case err := <-request.ErrorChannel:
-		return crud.User{}, err
-	case response := <-request.ResponseChannel:
-		return response.GetUserResponse, nil
-	}
-
+	response := <-request.ResponseChannel
+	return response.GetUserResponse, response.Err
 }
 
 func AddPostListToRequestChannel(userId uuid.UUID, newList crud.List, action string) error {
 
 	request := Request{
 		ResponseChannel: make(chan Response, 1),
-		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		PostListArgs:    PostListArgs{userId, newList},
 	}
 
 	RequestChannel <- request
-	return <-request.ErrorChannel
-
+	response := <-request.ResponseChannel
+	return response.Err
 }
 
 func AddDeleteListToRequestChannel(userId uuid.UUID, listId uuid.UUID, action string) error {
 
 	request := Request{
 		ResponseChannel: make(chan Response, 1),
-		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		DeleteListArgs:  DeleteListArgs{userId, listId},
 	}
 
 	RequestChannel <- request
-	return <-request.ErrorChannel
-
+	response := <-request.ResponseChannel
+	return response.Err
 }
 
 func AddPostItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, newItem crud.Item, action string) error {
 
 	request := Request{
 		ResponseChannel: make(chan Response, 1),
-		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		PostItemArgs:    PostItemArgs{userId, listId, newItem},
 	}
 
 	RequestChannel <- request
-	return <-request.ErrorChannel
-
+	response := <-request.ResponseChannel
+	return response.Err
 }
 
 func AddPutItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, newItem crud.Item, action string) error {
 
 	request := Request{
 		ResponseChannel: make(chan Response, 1),
-		ErrorChannel:    make(chan error, 1),
-		Action:          action,
-		PostItemArgs:    PostItemArgs{userId, listId, newItem},
+
+		Action:       action,
+		PostItemArgs: PostItemArgs{userId, listId, newItem},
 	}
 
 	RequestChannel <- request
-	return <-request.ErrorChannel
-
+	response := <-request.ResponseChannel
+	return response.Err
 }
 
 func AddDeleteItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID, action string) error {
 
 	request := Request{
 		ResponseChannel: make(chan Response, 1),
-		ErrorChannel:    make(chan error, 1),
-		Action:          action,
-		DeleteItemArgs:  DeleteItemArgs{userId, listId, itemId},
+
+		Action:         action,
+		DeleteItemArgs: DeleteItemArgs{userId, listId, itemId},
 	}
 
 	RequestChannel <- request
-	return <-request.ErrorChannel
-
+	response := <-request.ResponseChannel
+	return response.Err
 }

@@ -70,7 +70,6 @@ func PostList(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -93,7 +92,6 @@ func PostList(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("SUCCESS"))
 }
 
 func PutListName(w http.ResponseWriter, r *http.Request) {
@@ -108,7 +106,6 @@ func PutListName(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -131,7 +128,6 @@ func PutListName(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("SUCCESS"))
 }
 
 func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
@@ -146,7 +142,6 @@ func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -169,7 +164,6 @@ func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("SUCCESS"))
 }
 
 func DeleteList(w http.ResponseWriter, r *http.Request) {
@@ -184,7 +178,6 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -207,7 +200,6 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("SUCCESS"))
 }
 
 func PostItem(w http.ResponseWriter, r *http.Request) {
@@ -222,7 +214,6 @@ func PostItem(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -245,7 +236,6 @@ func PostItem(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("SUCCESS"))
 }
 
 func PutItem(w http.ResponseWriter, r *http.Request) {
@@ -260,7 +250,6 @@ func PutItem(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -297,7 +286,6 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -320,5 +308,4 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("--------- SUCCESS")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("SUCCESS"))
 }
