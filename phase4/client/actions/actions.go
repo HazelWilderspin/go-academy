@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"log/slog"
 
 	"fmt"
 	"net/http"
@@ -17,7 +16,6 @@ func GetUser(reqBody []byte) ([]byte, error) {
 
 	resp, err := clt.Post("http://localhost:8080/GetUser", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
-		slog.Error(err.Error())
 		return nil, err
 	}
 

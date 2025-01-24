@@ -14,6 +14,7 @@ func Actor() {
 	fmt.Println("Starting up RequestChannel listener")
 
 	for request := range RequestChannel {
+
 		fmt.Println("--- Actor Received action from Request channel: ", request.Action)
 
 		switch request.Action {
@@ -22,6 +23,7 @@ func Actor() {
 			user, err := crud.ReadUser(request.GetUserArg)
 			if err != nil {
 				request.ErrorChannel <- err
+				continue
 			}
 
 			request.ResponseChannel <- Response{user}
@@ -64,22 +66,19 @@ func Actor() {
 		default:
 			request.ErrorChannel <- errors.New("Actor defaulted, request action not viable")
 		}
-		close(request.ErrorChannel)
-		close(request.ResponseChannel)
 	}
 }
 
 func AddGetUserToRequestChannel(username string, action string) (crud.User, error) {
 
 	request := Request{
-		ResponseChannel: make(chan Response),
-		ErrorChannel:    make(chan error),
+		ResponseChannel: make(chan Response, 1),
+		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		GetUserArg:      username,
 	}
 
 	RequestChannel <- request
-
 	select {
 	case err := <-request.ErrorChannel:
 		return crud.User{}, err
@@ -92,8 +91,8 @@ func AddGetUserToRequestChannel(username string, action string) (crud.User, erro
 func AddPostListToRequestChannel(userId uuid.UUID, newList crud.List, action string) error {
 
 	request := Request{
-		ResponseChannel: make(chan Response),
-		ErrorChannel:    make(chan error),
+		ResponseChannel: make(chan Response, 1),
+		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		PostListArgs:    PostListArgs{userId, newList},
 	}
@@ -106,8 +105,8 @@ func AddPostListToRequestChannel(userId uuid.UUID, newList crud.List, action str
 func AddDeleteListToRequestChannel(userId uuid.UUID, listId uuid.UUID, action string) error {
 
 	request := Request{
-		ResponseChannel: make(chan Response),
-		ErrorChannel:    make(chan error),
+		ResponseChannel: make(chan Response, 1),
+		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		DeleteListArgs:  DeleteListArgs{userId, listId},
 	}
@@ -120,8 +119,8 @@ func AddDeleteListToRequestChannel(userId uuid.UUID, listId uuid.UUID, action st
 func AddPostItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, newItem crud.Item, action string) error {
 
 	request := Request{
-		ResponseChannel: make(chan Response),
-		ErrorChannel:    make(chan error),
+		ResponseChannel: make(chan Response, 1),
+		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		PostItemArgs:    PostItemArgs{userId, listId, newItem},
 	}
@@ -134,8 +133,8 @@ func AddPostItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, newItem cru
 func AddPutItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, newItem crud.Item, action string) error {
 
 	request := Request{
-		ResponseChannel: make(chan Response),
-		ErrorChannel:    make(chan error),
+		ResponseChannel: make(chan Response, 1),
+		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		PostItemArgs:    PostItemArgs{userId, listId, newItem},
 	}
@@ -148,8 +147,8 @@ func AddPutItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, newItem crud
 func AddDeleteItemToRequestChannel(userId uuid.UUID, listId uuid.UUID, itemId uuid.UUID, action string) error {
 
 	request := Request{
-		ResponseChannel: make(chan Response),
-		ErrorChannel:    make(chan error),
+		ResponseChannel: make(chan Response, 1),
+		ErrorChannel:    make(chan error, 1),
 		Action:          action,
 		DeleteItemArgs:  DeleteItemArgs{userId, listId, itemId},
 	}

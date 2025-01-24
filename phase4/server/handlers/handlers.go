@@ -22,13 +22,12 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
 		}
 	}()
 
@@ -36,25 +35,21 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	user, err := actor.AddGetUserToRequestChannel(unmarshaledBody.Username, "GetUser")
 	if err != nil {
-		Err = err
 		return
 	}
 
 	marshaledUser, err := json.MarshalIndent(&user, "  ", "  ")
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -69,13 +64,13 @@ func PostList(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -83,19 +78,16 @@ func PostList(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = actor.AddPostListToRequestChannel(unmarshaledBody.UserId, unmarshaledBody.NewList, "PostList")
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -110,13 +102,13 @@ func PutListName(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -124,19 +116,16 @@ func PutListName(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = crud.UpdateListName(unmarshaledBody.UserId, unmarshaledBody.ListId, unmarshaledBody.NewListName)
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -151,13 +140,13 @@ func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -165,18 +154,16 @@ func PutListToggleCompletion(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
+
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = crud.UpdateListToggleCompletion(unmarshaledBody.UserId, unmarshaledBody.ListId, unmarshaledBody.ListIsComplete)
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -191,13 +178,13 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -205,19 +192,16 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = actor.AddDeleteListToRequestChannel(unmarshaledBody.UserId, unmarshaledBody.ListId, "DeleteList")
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -232,13 +216,13 @@ func PostItem(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -246,19 +230,16 @@ func PostItem(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = actor.AddPostItemToRequestChannel(unmarshaledBody.UserId, unmarshaledBody.ListId, unmarshaledBody.NewItem, "PostItem")
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -273,13 +254,13 @@ func PutItem(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -287,19 +268,16 @@ func PutItem(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = actor.AddPutItemToRequestChannel(unmarshaledBody.UserId, unmarshaledBody.ListId, unmarshaledBody.Item, "PutItem")
 	if err != nil {
-		Err = err
 		return
 	}
 
@@ -313,13 +291,13 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancelCtx := context.WithCancel(r.Context())
 
-	var Err error
+	var err error
 	defer func() {
 		cancelCtx()
-		if Err != nil {
-			slog.Error(Err.Error(), "trace_id", ctx.Value(traceIdKey))
+		if err != nil {
+			slog.Error(err.Error(), "trace_id", ctx.Value(traceIdKey))
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(Err.Error()))
+			w.Write([]byte(err.Error()))
 		}
 	}()
 
@@ -327,19 +305,16 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 
 	bodyByteArr, err := io.ReadAll(r.Body)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = json.Unmarshal(bodyByteArr, &unmarshaledBody)
 	if err != nil {
-		Err = err
 		return
 	}
 
 	err = actor.AddDeleteItemToRequestChannel(unmarshaledBody.UserId, unmarshaledBody.ListId, unmarshaledBody.ItemId, "DeleteItem")
 	if err != nil {
-		Err = err
 		return
 	}
 

@@ -149,7 +149,28 @@
       "forename": "Charlie",
       "user_permissions": "CREATE_READ_UPDATE_DELETE",
       "init_date": "2012-04-23T18:25:43.511Z",
-      "lists": []
+      "lists": [
+        {
+          "list_id": "616c40be-c558-420e-be31-73ee06f829d8",
+          "list_name": "",
+          "list_init_date": "2012-04-23T18:25:43.511Z",
+          "list_is_complete": false,
+          "items": [
+            {
+              "item_id": "7f8126d4-1d44-459c-9f1a-25e35e8bd005",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            },
+            {
+              "item_id": "016abd9b-3a94-4d69-a456-44a2c1b7a72a",
+              "item_name": "",
+              "item_description": "",
+              "item_is_checked": false
+            }
+          ]
+        }
+      ]
     },
     {
       "user_detail_id": "93d0a8e0-50f1-49b2-beec-7ed5509de28a",
